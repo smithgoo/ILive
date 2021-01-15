@@ -10,7 +10,8 @@
 #import <AVFoundation/AVPlayerLayer.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
-
+#import <Masonry/Masonry.h>
+#import "CustomSlider.h"
 @interface VideoPlayer ()
 @property (strong) AVPlayerItem *playItem;
 
@@ -20,6 +21,16 @@
 @property (strong) NSView *tmpView;
 
 @property (strong) NSView *operationView;
+
+@property (strong) NSButton *playBtn;
+
+@property (strong) NSTextField *startLab;
+
+@property (strong) NSTextField *totalLab;
+
+@property (strong) NSButton *fullSecreenBtn;
+
+@property (strong) CustomSlider *progressSlider;
 
 @end
 
@@ -31,6 +42,7 @@
     if (self) {
         [self setUPUI:frameRect withUrl:url v:v];
         self.tmpView =v;
+        [self initOperationUI:frameRect];
     }
     
     return self;
@@ -39,9 +51,148 @@
 
 - (void)initOperationUI:(NSRect)frameRect {
     
+    self.operationView =[NSView new];
+    [self addSubview:self.operationView];
+    self.operationView.wantsLayer = true;///设置背景颜色
+    self.operationView.layer.backgroundColor =[[NSColor whiteColor] colorWithAlphaComponent:0.3].CGColor;
+    [self.operationView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).offset(15);
+        make.right.equalTo(self.mas_right).offset(-15);
+        make.bottom.equalTo(self.mas_bottom).offset(-15);
+        make.height.equalTo(@40);
+    }];
+    
+    self.playBtn =[NSButton new];
+    [self.operationView addSubview:self.playBtn];
+    self.playBtn.wantsLayer = true;///设置背景颜色
+    self.playBtn.layer.backgroundColor =[NSColor whiteColor].CGColor;
+    [self.playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).offset(80);
+        make.centerY.equalTo(self.operationView);
+        make.height.width.equalTo(@30);
+    }];
+    [self.playBtn setTarget:self];
+    [self.playBtn setAction:@selector(playAction:)];
     
     
+    self.fullSecreenBtn =[NSButton new];
+    [self.operationView addSubview:self.fullSecreenBtn];
+    self.fullSecreenBtn.wantsLayer = true;///设置背景颜色
+    self.fullSecreenBtn.layer.backgroundColor =[NSColor whiteColor].CGColor;
+    [self.fullSecreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.mas_right).offset(-80);
+        make.centerY.equalTo(self.operationView);
+        make.height.width.equalTo(@30);
+    }];
+    
+    
+    self.startLab =[NSTextField new];
+    [self.operationView addSubview:self.startLab];
+    [self.startLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.playBtn.mas_right).offset(20);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@30);
+        make.width.equalTo(@100);
+    }];
+    
+    self.startLab.layer.backgroundColor =[NSColor clearColor].CGColor;
+    
+    self.startLab.maximumNumberOfLines = 1;//最多显示行数
+            //设置断行模式
+    [[self.startLab cell] setLineBreakMode:NSLineBreakByCharWrapping];
+            //设置是否启用单行模式
+    [[self.startLab cell]setUsesSingleLineMode:YES];
+            //设置超出行数是否隐藏
+    [[self.startLab cell] setTruncatesLastVisibleLine: YES ];
+    
+    
+    
+    self.totalLab =[NSTextField new];
+    [self.operationView addSubview:self.totalLab];
+    [self.totalLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.fullSecreenBtn.mas_left).offset(-20);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@30);
+        make.width.equalTo(@100);
+    }];
+    
+    self.totalLab.layer.backgroundColor =[NSColor clearColor].CGColor;
+    
+    self.totalLab.maximumNumberOfLines = 1;//最多显示行数
+            //设置断行模式
+    [[self.totalLab cell] setLineBreakMode:NSLineBreakByCharWrapping];
+            //设置是否启用单行模式
+    [[self.totalLab cell]setUsesSingleLineMode:YES];
+            //设置超出行数是否隐藏
+    [[self.totalLab cell] setTruncatesLastVisibleLine: YES ];
+
+  
+    self.progressSlider =[CustomSlider new];
+    [self.operationView addSubview:self.progressSlider];
+    [self.progressSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.startLab.mas_right).offset(10);
+        make.right.equalTo(self.totalLab.mas_left).offset(-10);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@3);
+    }];
+    
+    self.progressSlider.minValue =0;
+    self.progressSlider.maxValue =100;
+  
+    [self.progressSlider setTarget:self];
+    [self.progressSlider setAction:@selector(sliderAction:)];
+
 }
+
+
+- (void)sliderAction:(id)sender {
+    if ((self.player.rate != 0) && (self.player.error == nil)) {
+        [self.player pause]; //播放状态就暂停
+    }
+    NSSlider *slider = (NSSlider *)sender;
+
+    float totalTime = CMTimeGetSeconds(self.playItem.duration)/100.0;
+    
+    float present = slider.floatValue;
+    
+    [self.player seekToTime:CMTimeMakeWithSeconds(totalTime*present, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+        if (finished ==YES) {
+            [self.player play];
+        }
+    }];
+
+}
+
+
+
+//传入 秒  得到 xx:xx:xx
+-(NSString *)getMMSSFromSS:(NSString *)totalTime{
+
+    NSInteger seconds = [totalTime integerValue];
+
+    //format of hour
+    NSString *str_hour = [NSString stringWithFormat:@"%02ld",seconds/3600];
+    //format of minute
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(seconds%3600)/60];
+    //format of second
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",seconds%60];
+    //format of time
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+
+    return format_time;
+
+}
+
+
+
+- (void)playAction:(NSButton*)sender {
+    if ((self.player.rate != 0) && (self.player.error == nil)) {
+        [self.player pause]; //播放状态就暂停
+    } else {
+        [self.player play];//否则就播放
+    }
+}
+
 
 - (void)setUPUI:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v {
     [self commonPlayFrame:frameRect withUrl:url v:v];
@@ -80,11 +231,17 @@
     [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         
         float currentTime = self.playItem.currentTime.value/self.playItem.currentTime.timescale;
-        NSLog(@"%f",currentTime);
-        
+        self.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",currentTime]];
         // 获取视频总时间
         float totalTime = CMTimeGetSeconds(self.playItem.duration);
-        NSLog(@"%f",totalTime);
+        self.totalLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime]];
+        if (isnan(totalTime)) {
+            self.operationView.hidden =YES;
+        } else {
+            self.operationView.hidden = NO;
+            self.progressSlider.floatValue = currentTime/totalTime*100;
+        }
+
     }];
     
 }
