@@ -228,6 +228,7 @@
         self.player.playlayer.frame = self.bottomContentView.bounds;
         self.contentView.hidden = NO;
     }
+    [self.player rebuildSubviews];
     return frameSize;
 }
 

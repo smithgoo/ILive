@@ -32,6 +32,8 @@
 
 @property (strong) CustomSlider *progressSlider;
 
+@property (assign) NSInteger idx;
+
 @end
 
 @implementation VideoPlayer
@@ -40,6 +42,7 @@
     self =[super initWithFrame:frameRect];
     
     if (self) {
+        
         [self setUPUI:frameRect withUrl:url v:v];
         self.tmpView =v;
         [self initOperationUI:frameRect];
@@ -59,7 +62,7 @@
         make.left.equalTo(self.mas_left).offset(15);
         make.right.equalTo(self.mas_right).offset(-15);
         make.bottom.equalTo(self.mas_bottom).offset(-15);
-        make.height.equalTo(@40);
+        make.height.equalTo(@45);
     }];
     
     self.playBtn =[NSButton new];
@@ -69,20 +72,22 @@
     [self.playBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(80);
         make.centerY.equalTo(self.operationView);
-        make.height.width.equalTo(@30);
+        make.height.width.equalTo(@40);
     }];
+    self.playBtn.title =@"暂停";
     [self.playBtn setTarget:self];
     [self.playBtn setAction:@selector(playAction:)];
     
     
     self.fullSecreenBtn =[NSButton new];
     [self.operationView addSubview:self.fullSecreenBtn];
+    self.fullSecreenBtn.title = @"全屏";
     self.fullSecreenBtn.wantsLayer = true;///设置背景颜色
     self.fullSecreenBtn.layer.backgroundColor =[NSColor whiteColor].CGColor;
     [self.fullSecreenBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.mas_right).offset(-80);
         make.centerY.equalTo(self.operationView);
-        make.height.width.equalTo(@30);
+        make.height.width.equalTo(@40);
     }];
     
     
@@ -91,11 +96,11 @@
     [self.startLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.playBtn.mas_right).offset(20);
         make.centerY.equalTo(self.operationView);
-        make.height.equalTo(@30);
-        make.width.equalTo(@100);
+        make.height.equalTo(@20);
+        make.width.equalTo(@60);
     }];
-    
-    self.startLab.layer.backgroundColor =[NSColor clearColor].CGColor;
+    self.startLab.backgroundColor =[NSColor clearColor];
+    self.startLab.enabled =NO;
     
     self.startLab.maximumNumberOfLines = 1;//最多显示行数
             //设置断行模式
@@ -112,11 +117,11 @@
     [self.totalLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(self.fullSecreenBtn.mas_left).offset(-20);
         make.centerY.equalTo(self.operationView);
-        make.height.equalTo(@30);
-        make.width.equalTo(@100);
+        make.height.equalTo(@20);
+        make.width.equalTo(@60);
     }];
-    
-    self.totalLab.layer.backgroundColor =[NSColor clearColor].CGColor;
+    self.totalLab.backgroundColor =[NSColor clearColor];
+    self.totalLab.enabled =NO;
     
     self.totalLab.maximumNumberOfLines = 1;//最多显示行数
             //设置断行模式
@@ -133,7 +138,7 @@
         make.left.equalTo(self.startLab.mas_right).offset(10);
         make.right.equalTo(self.totalLab.mas_left).offset(-10);
         make.centerY.equalTo(self.operationView);
-        make.height.equalTo(@3);
+        make.height.equalTo(@30);
     }];
     
     self.progressSlider.minValue =0;
@@ -141,6 +146,51 @@
   
     [self.progressSlider setTarget:self];
     [self.progressSlider setAction:@selector(sliderAction:)];
+    
+    self.operationView.hidden =YES;
+
+}
+
+- (void)rebuildSubviews{
+    [self.operationView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).offset(15);
+        make.right.equalTo(self.mas_right).offset(-15);
+        make.bottom.equalTo(self.mas_bottom).offset(-15);
+        make.height.equalTo(@45);
+    }];
+    [self.playBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).offset(80);
+        make.centerY.equalTo(self.operationView);
+        make.height.width.equalTo(@40);
+    }];
+
+    [self.fullSecreenBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.mas_right).offset(-80);
+        make.centerY.equalTo(self.operationView);
+        make.height.width.equalTo(@40);
+    }];
+
+    [self.startLab mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.playBtn.mas_right).offset(20);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@20);
+        make.width.equalTo(@60);
+    }];
+ 
+    [self.totalLab mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.fullSecreenBtn.mas_left).offset(-20);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@20);
+        make.width.equalTo(@60);
+    }];
+
+    [self.progressSlider mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.startLab.mas_right).offset(10);
+        make.right.equalTo(self.totalLab.mas_left).offset(-10);
+        make.centerY.equalTo(self.operationView);
+        make.height.equalTo(@30);
+    }];
+ 
 
 }
 
@@ -154,7 +204,8 @@
     float totalTime = CMTimeGetSeconds(self.playItem.duration)/100.0;
     
     float present = slider.floatValue;
-    
+    self.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime*present]];
+
     [self.player seekToTime:CMTimeMakeWithSeconds(totalTime*present, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         if (finished ==YES) {
             [self.player play];
@@ -188,8 +239,10 @@
 - (void)playAction:(NSButton*)sender {
     if ((self.player.rate != 0) && (self.player.error == nil)) {
         [self.player pause]; //播放状态就暂停
+        self.playBtn.title =@"播放";
     } else {
         [self.player play];//否则就播放
+        self.playBtn.title =@"暂停";
     }
 }
 
