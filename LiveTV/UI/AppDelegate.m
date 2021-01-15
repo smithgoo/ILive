@@ -26,11 +26,11 @@
 
 @property (strong) IBOutlet NSTableView *tvListView;
 
-@property (nonatomic,strong) NSMutableArray *dataArr;
+@property (strong) NSMutableArray *dataArr;
 @property (weak) IBOutlet NSView *topMenuView;
 @property (strong) NSMutableArray *btnArr;
 @property (strong) NSArray *linkArr;
-@property (nonatomic,strong) NSTextField *search;
+@property (strong) NSTextField *search;
 
 @property (weak) IBOutlet NSView *bottomContentView;
 
@@ -42,7 +42,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    self.linkArr =@[@"https://iptv-org.github.io/iptv/countries/cn.m3u",@"https://okzy.co/?m=vod-type-id-1.html",@"https://www.okzy.co/?m=vod-type-id-2.html",@"https://www.okzy.co/?m=vod-type-id-3.html"];
+    self.linkArr =@[
+        @"https://iptv-org.github.io/iptv/countries/cn.m3u",
+        @"https://okzy.co/?m=vod-type-id-1.html",
+        @"https://www.okzy.co/?m=vod-type-id-2.html",
+        @"https://www.okzy.co/?m=vod-type-id-3.html"];
     [self setupUI];
     [self initWebData];
     

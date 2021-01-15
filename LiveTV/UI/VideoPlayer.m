@@ -10,15 +10,16 @@
 #import <AVFoundation/AVPlayerLayer.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
+
 @interface VideoPlayer ()
-@property (nonatomic,strong) AVPlayerItem *playItem;
+@property (strong) AVPlayerItem *playItem;
 
-@property (nonatomic,strong) AVPlayer *player;
-
-
-@property (nonatomic,strong) NSView *tmpView;
+@property (strong) AVPlayer *player;
 
 
+@property (strong) NSView *tmpView;
+
+@property (strong) NSView *operationView;
 
 @end
 
@@ -33,6 +34,13 @@
     }
     
     return self;
+}
+
+
+- (void)initOperationUI:(NSRect)frameRect {
+    
+    
+    
 }
 
 - (void)setUPUI:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v {
@@ -104,8 +112,7 @@
             }
         }
     }
-    
-    
+   
 }
 
 
