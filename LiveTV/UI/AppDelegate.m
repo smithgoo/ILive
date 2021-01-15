@@ -13,10 +13,8 @@
 #import <WebKit/WKUserContentController.h>
 #import <WebKit/WKWebViewConfiguration.h>
 #import <Masonry/Masonry.h>
-#import <AVFoundation/AVPlayer.h>
-#import <AVFoundation/AVPlayerLayer.h>
-#import <AVKit/AVKit.h>
-#import <AVFoundation/AVFoundation.h>
+#import "VideoPlayer.h"
+
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 @property (strong) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *contentView;
@@ -36,11 +34,7 @@
 
 @property (weak) IBOutlet NSView *bottomContentView;
 
-@property (nonatomic,strong) AVPlayerItem *playItem;
-
-@property (nonatomic,strong) AVPlayer *player;
-
-@property (nonatomic,strong) AVPlayerLayer *layer;
+@property (strong) VideoPlayer *player;
 
 @end
 
@@ -133,70 +127,13 @@
 
 
 - (void)videoPlayWithURL:(NSString*)url  {
-    
-    if (self.player) {
-        [self.player.currentItem cancelPendingSeeks];
-        [self.player.currentItem.asset cancelLoading];
-        [self.player pause];
-        [self.player replaceCurrentItemWithPlayerItem:nil];
-        self.player = nil;
-
+    if (!self.player) {
+        self.player =[[VideoPlayer alloc] initWithFrame:self.bottomContentView.bounds withUrl:url v:self.bottomContentView];
+        [self.bottomContentView addSubview:self.player];
+    } else {
+        [self.player playUrl:url];
     }
-    
-    NSURL * videoUrl = [NSURL URLWithString:url];
-    // 设置播放项目
-    self.playItem = [[AVPlayerItem alloc] initWithURL:videoUrl];
-    // 初始化player对象
-    self.player = [[AVPlayer alloc] initWithPlayerItem:self.playItem];
-    // 设置播放页面
-    self.layer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    [self.playItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-    self.layer.frame = self.bottomContentView.bounds;
-    // 添加到当前页
-    [self.bottomContentView.layer addSublayer:self.layer];
-    
-    
-    // 获取当前播放时间,可以用value/timescale的方式
-    CMTime interval = CMTimeMakeWithSeconds(1, NSEC_PER_SEC);
-    [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        
-        float currentTime = self.playItem.currentTime.value/self.playItem.currentTime.timescale;
-        NSLog(@"%f",currentTime);
-        
-        // 获取视频总时间
-        float totalTime = CMTimeGetSeconds(self.playItem.duration);
-        NSLog(@"%f",totalTime);
-    }];
-    
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
-{
-    if ([object isKindOfClass:[AVPlayerItem class]]) {
-        if ([keyPath isEqualToString:@"status"]) {
-            switch (self.playItem.status) {
-                case AVPlayerItemStatusReadyToPlay:
-                    // 播放方法在这里，比较稳妥
-                    NSLog(@"准备播放");
-                    [self.player play];
-                    break;
-                case AVPlayerItemStatusFailed:
-                    NSLog(@"准备失败");
-                    break;
-                case AVPlayerItemStatusUnknown:
-                    NSLog(@"未知");
-                    break;
-                    
-                default:
-                    break;
-            }
-        }
-    }
-    
-    
-}
-
-
 
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
@@ -281,11 +218,11 @@
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
     if (1920 ==frameSize.width) {
-        self.layer.frame = CGRectMake(0,0,frameSize.width-162,frameSize.height);
-        self.contentView.alphaValue =0;
+        self.player.playlayer.frame = CGRectMake(0,0,frameSize.width-162,frameSize.height);
+        self.contentView.hidden =YES;
     } else {
-        self.layer.frame = self.bottomContentView.bounds;
-        self.contentView.alphaValue = 1;
+        self.player.playlayer.frame = self.bottomContentView.bounds;
+        self.contentView.hidden = NO;
     }
     return frameSize;
 }
@@ -306,9 +243,12 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
-    NSInteger row = [self.tvListView selectedRow];
-    FrontModel *model = self.dataArr[row];
-    [self videoPlayWithURL:model.link];
+    if ([self.dataArr count]>0) {
+        NSInteger row = [self.tvListView selectedRow];
+        FrontModel *model = self.dataArr[row];
+        [self videoPlayWithURL:model.link];
+    }
+
 }
 
 

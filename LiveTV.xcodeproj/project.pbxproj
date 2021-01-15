@@ -12,6 +12,7 @@
 		AA348ADF25AD5FDE009A5AD8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA348ADD25AD5FDE009A5AD8 /* MainMenu.xib */; };
 		AA348AE225AD5FDE009A5AD8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AE125AD5FDE009A5AD8 /* main.m */; };
 		AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AF825AD622B009A5AD8 /* FrontModel.m */; };
+		AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1735125B1AAE10078C687 /* VideoPlayer.m */; };
 		D0EA5B62C9FD868C3B111756 /* libPods-LiveTV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75DD85D2F4A7AC82B21C1E47 /* libPods-LiveTV.a */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +30,8 @@
 		AA348AE325AD5FDE009A5AD8 /* LiveTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveTV.entitlements; sourceTree = "<group>"; };
 		AA348AF825AD622B009A5AD8 /* FrontModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontModel.m; sourceTree = "<group>"; };
 		AA348AFB25AD622B009A5AD8 /* FrontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontModel.h; sourceTree = "<group>"; };
+		AAD1735025B1AAE10078C687 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
+		AAD1735125B1AAE10078C687 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +100,8 @@
 			children = (
 				AA348AD825AD5FDC009A5AD8 /* AppDelegate.h */,
 				AA348AD925AD5FDC009A5AD8 /* AppDelegate.m */,
+				AAD1735025B1AAE10078C687 /* VideoPlayer.h */,
+				AAD1735125B1AAE10078C687 /* VideoPlayer.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -204,6 +209,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */,
 				AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */,
 				AA348AE225AD5FDE009A5AD8 /* main.m in Sources */,
 				AA348ADA25AD5FDC009A5AD8 /* AppDelegate.m in Sources */,
