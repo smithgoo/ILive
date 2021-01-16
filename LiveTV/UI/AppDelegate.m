@@ -110,6 +110,9 @@
 }
 
 - (void)topmenuClick:(NSButton*)sender {
+    if (self.choiceView) {
+        [self.choiceView removeFromSuperview];
+    }
     [self.btnArr enumerateObjectsUsingBlock:^(NSButton * obj, NSUInteger idx, BOOL * _Nonnull stop) {
         if ([sender isEqual:obj]) {
             obj.contentTintColor = [NSColor redColor];
