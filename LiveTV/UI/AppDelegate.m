@@ -14,6 +14,7 @@
 #import <WebKit/WKWebViewConfiguration.h>
 #import <Masonry/Masonry.h>
 #import "VideoPlayer.h"
+#import "TVSeriesView.h"
 
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 @property (strong) IBOutlet NSWindow *window;
@@ -35,6 +36,8 @@
 @property (weak) IBOutlet NSView *bottomContentView;
 
 @property (strong) VideoPlayer *player;
+
+@property (strong) TVSeriesView *choiceView;
 
 @end
 
@@ -92,7 +95,7 @@
     
     self.bottomContentView.layer.backgroundColor =[NSColor blackColor].CGColor;
     self.tvListView.hidden = NO;
-    
+     
 }
 
 - (void)searchAction:(NSButton*)sender {
@@ -249,9 +252,23 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
     if ([self.dataArr count]>0) {
+        if (self.choiceView) {
+            [self.choiceView removeFromSuperview];
+        }
         NSInteger row = [self.tvListView selectedRow];
         FrontModel *model = self.dataArr[row];
-        [self videoPlayWithURL:model.link];
+        if ([model.tplayurlArr count]<=1) {
+            [self videoPlayWithURL:model.link];
+        } else {
+            self.choiceView =[[TVSeriesView alloc] initWithFrame:self.contentView.bounds];
+            [self.tvListView addSubview:self.choiceView];
+            [self.choiceView bdingModel:model];
+            [self videoPlayWithURL:model.tplayurlArr[0]];
+            self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url) {
+                [self videoPlayWithURL:url];
+            };
+        }
+     
     }
 
 }

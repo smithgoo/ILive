@@ -16,6 +16,7 @@
 		AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736625B1C1670078C687 /* NSColor+Hexa.m */; };
 		AAD1736D25B1C1670078C687 /* CustomSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736A25B1C1670078C687 /* CustomSliderCell.m */; };
 		AAD1736E25B1C1670078C687 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736B25B1C1670078C687 /* CustomSlider.m */; };
+		AAD1737425B1EBE10078C687 /* TVSeriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1737325B1EBE10078C687 /* TVSeriesView.m */; };
 		D0EA5B62C9FD868C3B111756 /* libPods-LiveTV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75DD85D2F4A7AC82B21C1E47 /* libPods-LiveTV.a */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +42,8 @@
 		AAD1736925B1C1670078C687 /* NSColor+Hexa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Hexa.h"; sourceTree = "<group>"; };
 		AAD1736A25B1C1670078C687 /* CustomSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSliderCell.m; sourceTree = "<group>"; };
 		AAD1736B25B1C1670078C687 /* CustomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSlider.m; sourceTree = "<group>"; };
+		AAD1737225B1EBE10078C687 /* TVSeriesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSeriesView.h; sourceTree = "<group>"; };
+		AAD1737325B1EBE10078C687 /* TVSeriesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVSeriesView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 				AA348AD925AD5FDC009A5AD8 /* AppDelegate.m */,
 				AAD1735025B1AAE10078C687 /* VideoPlayer.h */,
 				AAD1735125B1AAE10078C687 /* VideoPlayer.m */,
+				AAD1737225B1EBE10078C687 /* TVSeriesView.h */,
+				AAD1737325B1EBE10078C687 /* TVSeriesView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -233,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */,
+				AAD1737425B1EBE10078C687 /* TVSeriesView.m in Sources */,
 				AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */,
 				AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */,
 				AAD1736E25B1C1670078C687 /* CustomSlider.m in Sources */,
