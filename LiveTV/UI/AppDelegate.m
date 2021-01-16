@@ -237,10 +237,8 @@
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
     if (1920 ==frameSize.width) {
         self.player.playlayer.frame = CGRectMake(0,0,frameSize.width-162,frameSize.height);
-        self.contentView.hidden =YES;
     } else {
         self.player.playlayer.frame = self.bottomContentView.bounds;
-        self.contentView.hidden = NO;
     }
     [self.player rebuildSubviews];
     return frameSize;
@@ -261,29 +259,54 @@
  
 }
 
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
+    
+    return YES;
+}
+
+- (void)tableView:(NSTableView *)tableView didClickTableColumn:(NSTableColumn *)tableColumn {
+    
+}
+
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
-    @weakify(self)
+  
+    NSInteger row = [self.tvListView selectedRow];
+    if (row<0) {
+        return;
+    }
+    FrontModel *model = self.dataArr[row];
+    if (self.choiceView) {
+        [self.choiceView removeFromSuperview];
+        [self doneThis:model];
+        return;
+    }
+  
     if ([self.dataArr count]>0) {
         if (self.choiceView) {
             [self.choiceView removeFromSuperview];
         }
-        NSInteger row = [self.tvListView selectedRow];
-        FrontModel *model = self.dataArr[row];
+        
         if ([model.tplayurlArr count]<=1) {
             [self videoPlayWithURL:model.link];
         } else {
-            self.choiceView =[[TVSeriesView alloc] initWithFrame:self.contentView.bounds];
-            [self.tvListView addSubview:self.choiceView];
-            [self.choiceView bdingModel:model];
-            [self videoPlayWithURL:model.tplayurlArr[0]];
-            self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url) {
-                @strongify(self)
-                [self videoPlayWithURL:url];
-            };
+            [self doneThis:model];
         }
      
     }
 
+}
+
+-(void)doneThis:(FrontModel*)model {
+    @weakify(self)
+    self.choiceView =[[TVSeriesView alloc] initWithFrame:self.contentView.bounds];
+    [self.tvListView addSubview:self.choiceView];
+    [self.choiceView bdingModel:model];
+    [self videoPlayWithURL:model.tplayurlArr[0]];
+    self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url) {
+        @strongify(self)
+        [self videoPlayWithURL:url];
+        [self.choiceView removeFromSuperview];
+    };
 }
 
 

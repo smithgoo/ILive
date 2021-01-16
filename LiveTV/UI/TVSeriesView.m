@@ -7,6 +7,7 @@
 
 #import "TVSeriesView.h"
 #import "FrontModel.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 @interface TVSeriesView()
 @property (strong) NSMutableArray *totalArr;
 @end
@@ -25,6 +26,10 @@
     for (NSView *x in self.subviews) {
         [x removeFromSuperview];
     }
+    NSScrollView *scrollerView =[NSScrollView new];
+    [self addSubview:scrollerView];
+    scrollerView.frame =self.bounds;
+    
     NSInteger idx = model.tplayurlArr.count;
     int pandding =10;
     float width = (self.frame.size.width-10*8)/7;
@@ -34,7 +39,7 @@
         int x =index%7;
         int y = index/7;
         NSButton *btn = [NSButton new];
-        [self addSubview:btn];
+        [scrollerView addSubview:btn];
         btn.layer.borderColor =[NSColor orangeColor].CGColor;
         btn.layer.borderWidth =1;
         btn.tag = index+1;
@@ -52,10 +57,13 @@
             }
         }];
     }
+    
 }
 
 - (void)choiceStart:(NSButton*)sender {
+    @weakify(self)
     [self.totalArr enumerateObjectsUsingBlock:^(NSButton *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        @strongify(self)
         if ([sender isEqual:obj]) {
             if (self.choiceLinkCallback) {
                 self.choiceLinkCallback(self.model.tplayurlArr[idx]);

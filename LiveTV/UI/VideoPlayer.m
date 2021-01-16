@@ -58,7 +58,7 @@
     self.operationView =[NSView new];
     [self addSubview:self.operationView];
     self.operationView.wantsLayer = true;///设置背景颜色
-    self.operationView.layer.backgroundColor =[[NSColor whiteColor] colorWithAlphaComponent:0.3].CGColor;
+    self.operationView.layer.backgroundColor =[NSColor whiteColor].CGColor;
     [self.operationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(15);
         make.right.equalTo(self.mas_right).offset(-15);
