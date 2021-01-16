@@ -12,6 +12,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import <Masonry/Masonry.h>
 #import "CustomSlider.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
 @interface VideoPlayer ()
 @property (strong) AVPlayerItem *playItem;
 
@@ -196,6 +197,7 @@
 
 
 - (void)sliderAction:(id)sender {
+    @weakify(self)
     if ((self.player.rate != 0) && (self.player.error == nil)) {
         [self.player pause]; //播放状态就暂停
     }
@@ -207,6 +209,7 @@
     self.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime*present]];
 
     [self.player seekToTime:CMTimeMakeWithSeconds(totalTime*present, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+        @strongify(self)
         if (finished ==YES) {
             [self.player play];
         }
@@ -257,6 +260,7 @@
 
 
 - (void)commonPlayFrame:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v {
+    @weakify(self)
     if (self.player) {
         [self.player.currentItem cancelPendingSeeks];
         [self.player.currentItem.asset cancelLoading];
@@ -282,7 +286,7 @@
     // 获取当前播放时间,可以用value/timescale的方式
     CMTime interval = CMTimeMakeWithSeconds(1, NSEC_PER_SEC);
     [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-        
+        @strongify(self)
         float currentTime = self.playItem.currentTime.value/self.playItem.currentTime.timescale;
         self.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",currentTime]];
         // 获取视频总时间

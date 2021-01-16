@@ -15,7 +15,7 @@
 #import <Masonry/Masonry.h>
 #import "VideoPlayer.h"
 #import "TVSeriesView.h"
-
+#import <ReactiveCocoa/ReactiveCocoa.h>
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 @property (strong) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *contentView;
@@ -110,10 +110,12 @@
 }
 
 - (void)topmenuClick:(NSButton*)sender {
+    @weakify(self)
     if (self.choiceView) {
         [self.choiceView removeFromSuperview];
     }
     [self.btnArr enumerateObjectsUsingBlock:^(NSButton * obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        @strongify(self)
         if ([sender isEqual:obj]) {
             obj.contentTintColor = [NSColor redColor];
             if (idx ==0) {
@@ -146,8 +148,10 @@
 }
 
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
+    @weakify(self)
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
+            @strongify(self)
             [self nsoptainalAction:urlArr];
         }];
     }];
@@ -155,10 +159,12 @@
 }
 
 - (void)nsoptainalAction:(NSArray*)arr {
+    @weakify(self)
     NSMutableArray *operationArr = [[NSMutableArray alloc]init];
     self.dataArr =[NSMutableArray array];
     for (int i=0; i<arr.count; i++) {
         NSBlockOperation *operation = [NSBlockOperation blockOperationWithBlock:^{
+            @strongify(self)
             [self newgetVideoDetail:arr[i] endf:^(id result) {
                 FrontModel *dmodel =result;
                 [self.dataArr addObject:dmodel];
@@ -194,9 +200,11 @@
 
 
 - (void)filterLIVEM3u8ListByLink:(NSString*)link {
+    @weakify(self)
     self.dataArr =[NSMutableArray array];
     [FrontModel Api_request_getLiveM3u8LIstAddress:link succ:^(NSArray * _Nonnull msg) {
         [msg enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            @strongify(self)
             NSArray *tarr =[obj componentsSeparatedByString:@","];
             NSString *tt = tarr.lastObject;
             NSArray *ttarr  =[tt componentsSeparatedByString:@"\n"];
@@ -254,6 +262,7 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
+    @weakify(self)
     if ([self.dataArr count]>0) {
         if (self.choiceView) {
             [self.choiceView removeFromSuperview];
@@ -268,6 +277,7 @@
             [self.choiceView bdingModel:model];
             [self videoPlayWithURL:model.tplayurlArr[0]];
             self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url) {
+                @strongify(self)
                 [self videoPlayWithURL:url];
             };
         }
