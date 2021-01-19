@@ -15,9 +15,6 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 
 @interface VideoPlayer ()
-
-
-
  
 @property (strong) NSView *tmpView;
  
@@ -33,7 +30,7 @@
     if (self) {
         [self setUPUI:frameRect withUrl:url v:v];
         self.tmpView =v;
-      
+        self.currentPlayUrl = url;
     }
     
     return self;
@@ -44,6 +41,7 @@
 }
 
 -(void)playUrl:(NSString *)url {
+    self.currentPlayUrl = url;
     [self commonPlayFrame:self.tmpView.bounds withUrl:url v:self.tmpView];
 }
 

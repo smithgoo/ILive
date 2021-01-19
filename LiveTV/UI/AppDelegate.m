@@ -206,6 +206,9 @@
             self.operationView.progressSlider.floatValue = pressValue;
         };
     } else {
+        if ([url isEqualToString:self.player.currentPlayUrl]) {
+            return;
+        }
         [self.player playUrl:url];
     }
 }

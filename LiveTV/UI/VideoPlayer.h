@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) AVPlayerLayer *playlayer;
 @property (strong) AVPlayer *player;
 @property (strong) AVPlayerItem *playItem;
+@property (strong) NSString *currentPlayUrl;
 
 @property (copy) void(^playerActionCallBack)(NSString*startString,NSString*totalString,BOOL needHidden,float pressValue);
 
