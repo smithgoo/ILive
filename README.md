@@ -3,10 +3,9 @@
 
 ## 直播和电影电视资源来源于网络
         
-        https://iptv-org.github.io
-        https://okzy.co
-        类似还有其他网站
-            电影天堂这种
+        1.https://iptv-org.github.io
+        2.https://okzy.co
+        3.类似还有其他网站,电影天堂这种
 
 
 ## mac app 原理
