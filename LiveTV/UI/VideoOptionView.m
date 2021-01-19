@@ -18,7 +18,7 @@
     self =[super initWithFrame:frameRect];
     if (self) {
         self.wantsLayer = true;///设置背景颜色
-        self.layer.backgroundColor =[NSColor blackColor].CGColor;
+        self.layer.backgroundColor =[NSColor  whiteColor].CGColor;
         [self initOperationUI:frameRect];
     }
     
