@@ -1,6 +1,6 @@
 # ILive
 开源一个MAC APP项目 电视和直播 ILIVE 资源都是取自网上 本地爬取
-
+![](0.png)
 ## 直播和电影电视资源来源于网络
         
         1.https://iptv-org.github.io
