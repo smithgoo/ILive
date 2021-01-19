@@ -240,6 +240,8 @@
     } else {
         self.player.playlayer.frame = self.bottomContentView.bounds;
     }
+    self.player.operationView.frame =CGRectMake(15, self.bottomContentView.frame.size.height-60, self.bottomContentView.frame.size.width-30, 45);
+ 
     [self.player rebuildSubviews];
     return frameSize;
 }

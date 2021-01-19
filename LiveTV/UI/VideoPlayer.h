@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : NSView
 @property (strong) AVPlayerLayer *playlayer;
+@property (strong) NSView *operationView;
 
 - (instancetype)initWithFrame:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v;
 

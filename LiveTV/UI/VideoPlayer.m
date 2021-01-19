@@ -21,7 +21,6 @@
 
 @property (strong) NSView *tmpView;
 
-@property (strong) NSView *operationView;
 
 @property (strong) NSButton *playBtn;
 
@@ -153,12 +152,7 @@
 }
 
 - (void)rebuildSubviews{
-    [self.operationView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(15);
-        make.right.equalTo(self.mas_right).offset(-15);
-        make.bottom.equalTo(self.mas_bottom).offset(-15);
-        make.height.equalTo(@45);
-    }];
+    
     [self.playBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(80);
         make.centerY.equalTo(self.operationView);
@@ -287,6 +281,9 @@
     CMTime interval = CMTimeMakeWithSeconds(1, NSEC_PER_SEC);
     [self.player addPeriodicTimeObserverForInterval:interval queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
         @strongify(self)
+        if (time.timescale !=1000000000) {
+            return;
+        }
         float currentTime = self.playItem.currentTime.value/self.playItem.currentTime.timescale;
         self.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",currentTime]];
         // 获取视频总时间
