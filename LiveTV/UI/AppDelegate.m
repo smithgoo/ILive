@@ -16,6 +16,7 @@
 #import "VideoPlayer.h"
 #import "TVSeriesView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
+#import "VideoOptionView.h"
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 @property (strong) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *contentView;
@@ -35,9 +36,15 @@
 
 @property (weak) IBOutlet NSView *bottomContentView;
 
+@property (weak) IBOutlet NSView *playerContentView;
+
+@property (weak) IBOutlet NSView *operaContentView;
+
 @property (strong) VideoPlayer *player;
 
 @property (strong) TVSeriesView *choiceView;
+
+@property (strong) VideoOptionView *operationView;
 
 @end
 
@@ -95,7 +102,53 @@
     
     self.bottomContentView.layer.backgroundColor =[NSColor blackColor].CGColor;
     self.tvListView.hidden = NO;
+
+    self.operationView =[[VideoOptionView alloc] initWithFrame:self.operaContentView.bounds];
+    [self.operaContentView addSubview:self.operationView];
+    
+    @weakify(self)
+    self.operationView.playAction = ^(NSButton * _Nonnull btn) {
+        @strongify(self)
+        [self playAction:btn];
+    };
+    self.operationView.sliderActionCallBack = ^(NSSlider * _Nonnull slider) {
+        @strongify(self)
+        [self sliderAction:slider];
+    };
+ 
      
+}
+
+
+- (void)playAction:(NSButton*)sender {
+    if ((self.player.player.rate != 0) && (self.player.player.error == nil)) {
+        [self.player.player pause]; //播放状态就暂停
+        self.operationView.playBtn.title =@"播放";
+    } else {
+        [self.player.player play];//否则就播放
+        self.operationView.playBtn.title =@"暂停";
+    }
+}
+
+- (void)sliderAction:(id)sender {
+    @weakify(self)
+    if ((self.player.player.rate != 0) && (self.player.player.error == nil)) {
+        [self.player.player pause]; //播放状态就暂停
+    }
+    NSSlider *slider = (NSSlider *)sender;
+
+    float totalTime = CMTimeGetSeconds(self.player.playItem.duration)/100.0;
+
+    float present = slider.floatValue;
+    self.operationView.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime*present]];
+
+    [self.player.player seekToTime:CMTimeMakeWithSeconds(totalTime*present, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+        @strongify(self)
+        if (finished ==YES) {
+            [self.player.player play];
+        }
+    }];
+
 }
 
 - (void)searchAction:(NSButton*)sender {
@@ -139,9 +192,17 @@
 
 
 - (void)videoPlayWithURL:(NSString*)url  {
+    @weakify(self)
     if (!self.player) {
-        self.player =[[VideoPlayer alloc] initWithFrame:self.bottomContentView.bounds withUrl:url v:self.bottomContentView];
+        self.player =[[VideoPlayer alloc] initWithFrame:self.playerContentView.bounds withUrl:url v:self.playerContentView];
         [self.bottomContentView addSubview:self.player];
+        self.player.playerActionCallBack = ^(NSString * _Nonnull startString, NSString * _Nonnull totalString, BOOL needHidden, float pressValue) {
+            @strongify(self)
+            self.operationView.startLab.stringValue =startString;
+            self.operationView.totalLab.stringValue =totalString;
+            self.operationView.hidden =needHidden;
+            self.operationView.progressSlider.floatValue = pressValue;
+        };
     } else {
         [self.player playUrl:url];
     }
@@ -235,14 +296,10 @@
 
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
-    if (1920 ==frameSize.width) {
-        self.player.playlayer.frame = CGRectMake(0,0,frameSize.width-162,frameSize.height);
-    } else {
-        self.player.playlayer.frame = self.bottomContentView.bounds;
-    }
-    self.player.operationView.frame =CGRectMake(15, self.bottomContentView.frame.size.height-60, self.bottomContentView.frame.size.width-30, 45);
- 
-    [self.player rebuildSubviews];
+    self.player.playlayer.frame = self.playerContentView.bounds;
+
+    self.operationView.frame =self.operaContentView.bounds;
+   
     return frameSize;
 }
 
@@ -309,6 +366,25 @@
         [self videoPlayWithURL:url];
         [self.choiceView removeFromSuperview];
     };
+}
+
+
+//传入 秒  得到 xx:xx:xx
+-(NSString *)getMMSSFromSS:(NSString *)totalTime{
+
+    NSInteger seconds = [totalTime integerValue];
+
+    //format of hour
+    NSString *str_hour = [NSString stringWithFormat:@"%02ld",seconds/3600];
+    //format of minute
+    NSString *str_minute = [NSString stringWithFormat:@"%02ld",(seconds%3600)/60];
+    //format of second
+    NSString *str_second = [NSString stringWithFormat:@"%02ld",seconds%60];
+    //format of time
+    NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
+
+    return format_time;
+
 }
 
 

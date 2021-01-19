@@ -17,7 +17,7 @@
 		AAD1736D25B1C1670078C687 /* CustomSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736A25B1C1670078C687 /* CustomSliderCell.m */; };
 		AAD1736E25B1C1670078C687 /* CustomSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736B25B1C1670078C687 /* CustomSlider.m */; };
 		AAD1737425B1EBE10078C687 /* TVSeriesView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1737325B1EBE10078C687 /* TVSeriesView.m */; };
-		AAD1737825B29D3E0078C687 /* NSView+size.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1737625B29D3D0078C687 /* NSView+size.m */; };
+		AAD5B9A825B681D500CC3DA7 /* VideoOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD5B9A725B681D500CC3DA7 /* VideoOptionView.m */; };
 		D0EA5B62C9FD868C3B111756 /* libPods-LiveTV.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75DD85D2F4A7AC82B21C1E47 /* libPods-LiveTV.a */; };
 /* End PBXBuildFile section */
 
@@ -45,8 +45,8 @@
 		AAD1736B25B1C1670078C687 /* CustomSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomSlider.m; sourceTree = "<group>"; };
 		AAD1737225B1EBE10078C687 /* TVSeriesView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TVSeriesView.h; sourceTree = "<group>"; };
 		AAD1737325B1EBE10078C687 /* TVSeriesView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TVSeriesView.m; sourceTree = "<group>"; };
-		AAD1737625B29D3D0078C687 /* NSView+size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSView+size.m"; sourceTree = "<group>"; };
-		AAD1737725B29D3D0078C687 /* NSView+size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSView+size.h"; sourceTree = "<group>"; };
+		AAD5B9A625B681D500CC3DA7 /* VideoOptionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoOptionView.h; sourceTree = "<group>"; };
+		AAD5B9A725B681D500CC3DA7 /* VideoOptionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoOptionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +118,8 @@
 				AA348AD925AD5FDC009A5AD8 /* AppDelegate.m */,
 				AAD1735025B1AAE10078C687 /* VideoPlayer.h */,
 				AAD1735125B1AAE10078C687 /* VideoPlayer.m */,
-				AAD1737725B29D3D0078C687 /* NSView+size.h */,
-				AAD1737625B29D3D0078C687 /* NSView+size.m */,
+				AAD5B9A625B681D500CC3DA7 /* VideoOptionView.h */,
+				AAD5B9A725B681D500CC3DA7 /* VideoOptionView.m */,
 				AAD1737225B1EBE10078C687 /* TVSeriesView.h */,
 				AAD1737325B1EBE10078C687 /* TVSeriesView.m */,
 			);
@@ -245,12 +245,12 @@
 				AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */,
 				AAD1737425B1EBE10078C687 /* TVSeriesView.m in Sources */,
 				AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */,
-				AAD1737825B29D3E0078C687 /* NSView+size.m in Sources */,
 				AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */,
 				AAD1736E25B1C1670078C687 /* CustomSlider.m in Sources */,
 				AA348AE225AD5FDE009A5AD8 /* main.m in Sources */,
 				AA348ADA25AD5FDC009A5AD8 /* AppDelegate.m in Sources */,
 				AAD1736D25B1C1670078C687 /* CustomSliderCell.m in Sources */,
+				AAD5B9A825B681D500CC3DA7 /* VideoOptionView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

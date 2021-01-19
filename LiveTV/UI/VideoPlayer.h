@@ -10,11 +10,15 @@
 #import <AVFoundation/AVPlayerLayer.h>
 #import <AVKit/AVKit.h>
 #import <AVFoundation/AVFoundation.h>
+#import "VideoOptionView.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface VideoPlayer : NSView
 @property (strong) AVPlayerLayer *playlayer;
-@property (strong) NSView *operationView;
+@property (strong) AVPlayer *player;
+@property (strong) AVPlayerItem *playItem;
+
+@property (copy) void(^playerActionCallBack)(NSString*startString,NSString*totalString,BOOL needHidden,float pressValue);
 
 - (instancetype)initWithFrame:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v;
 

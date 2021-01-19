@@ -21,7 +21,6 @@ target 'LiveTV' do
   pod 'SDWebImage'
   pod 'CocoaHTTPServer'
   pod 'ReactiveCocoa', '~> 2.5'
-  pod 'WHC_AutoLayoutKit', '~> 2.8.6'
   # Podfile
 
 end
