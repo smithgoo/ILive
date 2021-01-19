@@ -106,6 +106,8 @@
     self.operationView =[[VideoOptionView alloc] initWithFrame:self.operaContentView.bounds];
     [self.operaContentView addSubview:self.operationView];
     
+    self.operationView.hidden =YES;
+    
     @weakify(self)
     self.operationView.playAction = ^(NSButton * _Nonnull btn) {
         @strongify(self)
