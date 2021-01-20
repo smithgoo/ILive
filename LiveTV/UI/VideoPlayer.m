@@ -88,9 +88,6 @@
         if (self.playerActionCallBack) {
             self.playerActionCallBack([self getMMSSFromSS:[NSString stringWithFormat:@"%f",currentTime]],[self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime]],needHidden,currentTime/totalTime*100);
         }
-
-
-
     }];
     
 }

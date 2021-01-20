@@ -102,11 +102,10 @@
     
     self.bottomContentView.layer.backgroundColor =[NSColor blackColor].CGColor;
     self.tvListView.hidden = NO;
-
     self.operationView =[[VideoOptionView alloc] initWithFrame:self.operaContentView.bounds];
     [self.operaContentView addSubview:self.operationView];
     
-    self.operationView.hidden =YES;
+    self.operationView.progressSlider.hidden =YES;
     
     @weakify(self)
     self.operationView.playAction = ^(NSButton * _Nonnull btn) {
@@ -202,7 +201,7 @@
             @strongify(self)
             self.operationView.startLab.stringValue =startString;
             self.operationView.totalLab.stringValue =totalString;
-            self.operationView.hidden =needHidden;
+            self.operationView.progressSlider.hidden =needHidden;
             self.operationView.progressSlider.floatValue = pressValue;
         };
     } else {
@@ -301,9 +300,11 @@
 
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
+    [self.playerContentView setNeedsLayout:YES];
+    [self.operaContentView setNeedsLayout:YES];
     self.player.playlayer.frame = self.playerContentView.bounds;
-
     self.operationView.frame =self.operaContentView.bounds;
+
    
     return frameSize;
 }
