@@ -18,6 +18,8 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "VideoOptionView.h"
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
+
+@property (strong) FrontModel *currentModel;
 @property (strong) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSScrollView *contentView;
 
@@ -204,6 +206,20 @@
             self.operationView.progressSlider.hidden =needHidden;
             self.operationView.progressSlider.floatValue = pressValue;
         };
+        self.player.playerCompliteCallBack = ^{
+            @strongify(self)
+            if ([self.currentModel.tplayurlArr count]>0) {
+                [self.currentModel.tplayurlArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([self.player.currentPlayUrl isEqualToString:obj]) {
+                        *stop =YES;
+                        if (idx!=([self.currentModel.tplayurlArr count]-1)) {
+                            [self videoPlayWithURL:self.currentModel.tplayurlArr[idx+2]];
+                            self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第%ld集",[self.currentModel title],idx+2];
+                        }
+                    }
+                }];
+            }
+        };
     } else {
         if ([url isEqualToString:self.player.currentPlayUrl]) {
             return;
@@ -237,6 +253,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tvListView reloadData];
                         [self videoPlayWithURL:[self.dataArr[0] link]];
+                        self.currentModel = self.dataArr[0];
                         if ([[self.dataArr[0] tplayurlArr] count]>0) {
                             self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",[self.dataArr[0] title]];
                         } else {
@@ -300,6 +317,7 @@
         }
         [self.tvListView reloadData];
         [self videoPlayWithURL:[self.dataArr[0] link]];
+        self.currentModel = self.dataArr[0];
         if ([[self.dataArr[0] tplayurlArr] count]>0) {
             self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",[self.dataArr[0] title]];
         } else {
@@ -350,6 +368,7 @@
         return;
     }
     FrontModel *model = self.dataArr[row];
+    self.currentModel = model;
     if (self.choiceView) {
         [self.choiceView removeFromSuperview];
         [self doneThis:model];

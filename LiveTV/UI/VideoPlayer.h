@@ -19,7 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) AVPlayerItem *playItem;
 @property (strong) NSString *currentPlayUrl;
 
+//实时监听
 @property (copy) void(^playerActionCallBack)(NSString*startString,NSString*totalString,BOOL needHidden,float pressValue);
+
+//播放完成的监听
+@property (copy) void(^playerCompliteCallBack)(void);
 
 - (instancetype)initWithFrame:(NSRect)frameRect withUrl:(NSString*)url v:(NSView*)v;
 
