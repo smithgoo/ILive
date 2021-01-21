@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong) NSButton *playBtn;
 
+@property (strong) NSTextField *titleShowlabel;
+
 @property (strong) NSTextField *startLab;
 
 @property (strong) NSTextField *totalLab;

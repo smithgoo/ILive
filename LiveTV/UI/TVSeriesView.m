@@ -66,7 +66,7 @@
         @strongify(self)
         if ([sender isEqual:obj]) {
             if (self.choiceLinkCallback) {
-                self.choiceLinkCallback(self.model.tplayurlArr[idx]);
+                self.choiceLinkCallback(self.model.tplayurlArr[idx],self.model.nickname,idx);
             }
         }
     }];

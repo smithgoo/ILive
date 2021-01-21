@@ -108,6 +108,25 @@
   
     [self.progressSlider setTarget:self];
     [self.progressSlider setAction:@selector(sliderAction:)];
+    
+    
+    self.titleShowlabel =[NSTextField new];
+    [self addSubview:self.titleShowlabel];
+    [self.titleShowlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.mas_centerX);
+        make.top.equalTo(self.mas_top).offset(5);
+        make.height.equalTo(@20);
+        make.width.equalTo(@260);
+    }];
+    self.titleShowlabel.backgroundColor =[NSColor clearColor];
+    self.titleShowlabel.enabled =NO;
+    self.titleShowlabel.font =[NSFont systemFontOfSize:14];
+    self.titleShowlabel.textColor =[NSColor blackColor];
+ 
+    
+    self.titleShowlabel.maximumNumberOfLines = 1;//最多显示行数
+   
+    
 
 }
 
@@ -126,48 +145,5 @@
     }
  
 }
-
-
-- (void)rebuildSubviews{
-    
-    [self.playBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).offset(80);
-        make.centerY.equalTo(self.mas_centerY);
-        make.height.width.equalTo(@40);
-    }];
-
-    [self.fullSecreenBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.mas_right).offset(-80);
-        make.centerY.equalTo(self.mas_centerY);
-        make.height.width.equalTo(@40);
-    }];
-
-    [self.startLab mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.playBtn.mas_right).offset(20);
-        make.centerY.equalTo(self.mas_centerY);
-        make.height.equalTo(@20);
-        make.width.equalTo(@60);
-    }];
- 
-    [self.totalLab mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.fullSecreenBtn.mas_left).offset(-20);
-        make.centerY.equalTo(self.mas_centerY);
-        make.height.equalTo(@20);
-        make.width.equalTo(@60);
-    }];
-
-    [self.progressSlider mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.startLab.mas_right).offset(10);
-        make.right.equalTo(self.totalLab.mas_left).offset(-10);
-        make.centerY.equalTo(self.mas_centerY);
-        make.height.equalTo(@30);
-    }];
- 
-
-}
-
-
-
-
 
 @end

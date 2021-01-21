@@ -237,6 +237,11 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.tvListView reloadData];
                         [self videoPlayWithURL:[self.dataArr[0] link]];
+                        if ([[self.dataArr[0] tplayurlArr] count]>0) {
+                            self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",[self.dataArr[0] title]];
+                        } else {
+                            self.operationView.titleShowlabel.stringValue =[self.dataArr[0] title];
+                        }
                     });
                 }
             }];
@@ -295,6 +300,11 @@
         }
         [self.tvListView reloadData];
         [self videoPlayWithURL:[self.dataArr[0] link]];
+        if ([[self.dataArr[0] tplayurlArr] count]>0) {
+            self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",[self.dataArr[0] title]];
+        } else {
+            self.operationView.titleShowlabel.stringValue =[self.dataArr[0] title];
+        }
     }];
 }
 
@@ -353,6 +363,11 @@
         
         if ([model.tplayurlArr count]<=1) {
             [self videoPlayWithURL:model.link];
+            if ([model.tplayurlArr count]>0) {
+                self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
+            } else {
+                self.operationView.titleShowlabel.stringValue =model.title;
+            }
         } else {
             [self doneThis:model];
         }
@@ -367,10 +382,16 @@
     [self.tvListView addSubview:self.choiceView];
     [self.choiceView bdingModel:model];
     [self videoPlayWithURL:model.tplayurlArr[0]];
-    self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url) {
+    if ([model.tplayurlArr count]>0) {
+        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
+    } else {
+        self.operationView.titleShowlabel.stringValue =model.title;
+    }
+    self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url, NSString * _Nonnull title, NSInteger idx) {
         @strongify(self)
         [self videoPlayWithURL:url];
         [self.choiceView removeFromSuperview];
+        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第%ld集",title,idx+1];
     };
 }
 

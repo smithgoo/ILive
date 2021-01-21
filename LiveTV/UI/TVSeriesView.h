@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TVSeriesView : NSView
 -(instancetype)initWithFrame:(CGRect)frame;
-@property (copy) void(^choiceLinkCallback)(NSString*url);
+@property (copy) void(^choiceLinkCallback)(NSString*url,NSString* title,NSInteger idx);
 @property (strong) FrontModel*model;
 - (void)bdingModel:(FrontModel*)model;
 
