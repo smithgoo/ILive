@@ -126,6 +126,7 @@
                 @strongify(self)
                 if (finished ==YES) {
                     [self.player.player play];
+                    self.operationView.playBtn.title =@"暂停";
                 }
             }];
         }
