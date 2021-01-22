@@ -14,6 +14,13 @@
 
 @implementation TVSeriesView
 
+- (void)drawRect:(NSRect)dirtyRect {
+//    [super drawRect:dirtyRect];
+    
+    // Drawing code here.
+}
+
+
 -(instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     self.layer.backgroundColor =[NSColor whiteColor].CGColor;

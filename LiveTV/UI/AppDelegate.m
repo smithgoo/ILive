@@ -369,7 +369,9 @@
     if (self.choiceView) {
         [self.choiceView removeFromSuperview];
         self.choiceView =nil;
-        [self doneThis:model row:row];
+//        [self doneThis:model row:row];
+        [self.tvListView deselectColumn:0];
+        [self.tvListView deselectRow:row];
         return;
     }
   
