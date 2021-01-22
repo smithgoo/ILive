@@ -20,7 +20,7 @@
     return self;
 }
 
-- (void)bdingModel:(FrontModel*)model {
+- (void)bdingModel:(FrontModel*)model currentUrl:(NSString*)link{
     self.model =model;
     self.totalArr =[NSMutableArray array];
     for (NSView *x in self.subviews) {
@@ -43,6 +43,7 @@
         btn.layer.borderColor =[NSColor orangeColor].CGColor;
         btn.layer.borderWidth =1;
         btn.tag = index+1;
+        btn.wantsLayer =YES;
         btn.title =[NSString stringWithFormat:@"%d",index+1];
         btn.frame = CGRectMake(x * (width + pandding) + pandding, y  * (heigth + pandding)+pandding, width, heigth);
         xxx = y  * (heigth + pandding)+pandding+heigth;
@@ -57,6 +58,21 @@
             }
         }];
     }
+    
+    [model.tplayurlArr enumerateObjectsUsingBlock:^(NSString *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isEqualToString:link]) {
+            *stop =YES;
+            __block NSInteger tdx =idx;
+            [self.totalArr enumerateObjectsUsingBlock:^(NSButton *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (tdx==idx) {
+                    obj.layer.backgroundColor =[NSColor redColor].CGColor;
+                } else {
+                    obj.layer.backgroundColor =[NSColor whiteColor].CGColor;
+                }
+            }];
+        }
+    }];
+    
     
 }
 

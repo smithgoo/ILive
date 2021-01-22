@@ -167,9 +167,6 @@
 
 - (void)topmenuClick:(NSButton*)sender {
     @weakify(self)
-    if (self.choiceView) {
-        [self.choiceView removeFromSuperview];
-    }
     [self.btnArr enumerateObjectsUsingBlock:^(NSButton * obj, NSUInteger idx, BOOL * _Nonnull stop) {
         @strongify(self)
         if ([sender isEqual:obj]) {
@@ -399,7 +396,7 @@
     @weakify(self)
     self.choiceView =[[TVSeriesView alloc] initWithFrame:self.contentView.bounds];
     [self.tvListView addSubview:self.choiceView];
-    [self.choiceView bdingModel:model];
+    [self.choiceView bdingModel:model currentUrl:self.player.currentPlayUrl];
     [self videoPlayWithURL:model.tplayurlArr[0]];
     if ([model.tplayurlArr count]>0) {
         self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];

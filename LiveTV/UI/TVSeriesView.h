@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithFrame:(CGRect)frame;
 @property (copy) void(^choiceLinkCallback)(NSString*url,NSString* title,NSInteger idx);
 @property (strong) FrontModel*model;
-- (void)bdingModel:(FrontModel*)model;
+- (void)bdingModel:(FrontModel*)model currentUrl:(NSString*)link;
 
 @end
 
