@@ -408,6 +408,8 @@
         [self videoPlayWithURL:url];
         [self.choiceView removeFromSuperview];
         self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第%ld集",title,idx+1];
+        [self.tvListView deselectColumn:0];
+        [self.tvListView deselectRow:0];
     };
 }
 
