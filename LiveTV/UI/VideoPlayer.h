@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) AVPlayer *player;
 @property (strong) AVPlayerItem *playItem;
 @property (strong) NSString *currentPlayUrl;
-
+@property (assign) float currentPlayerTime;
 //实时监听
 @property (copy) void(^playerActionCallBack)(NSString*startString,NSString*totalString,BOOL needHidden,float pressValue);
 

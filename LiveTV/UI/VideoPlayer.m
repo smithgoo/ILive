@@ -76,6 +76,7 @@
             return;
         }
         float currentTime = self.playItem.currentTime.value/self.playItem.currentTime.timescale;
+        self.currentPlayerTime = currentTime;
         // 获取视频总时间
         float totalTime = CMTimeGetSeconds(self.playItem.duration);
         BOOL needHidden =NO;

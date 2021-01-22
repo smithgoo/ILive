@@ -118,6 +118,19 @@
         @strongify(self)
         [self sliderAction:slider];
     };
+    
+    self.operationView.refreshAction = ^{
+        @strongify(self)
+        if ((self.player.player.rate == 0) || (self.player.player.error != nil)) {
+            [self.player.player seekToTime:CMTimeMakeWithSeconds(self.player.currentPlayerTime, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+                @strongify(self)
+                if (finished ==YES) {
+                    [self.player.player play];
+                }
+            }];
+        }
+     
+    };
  
      
 }
@@ -151,6 +164,7 @@
             [self.player.player play];
         }
     }];
+    
 
 }
 
@@ -217,6 +231,8 @@
                 }];
             }
         };
+       
+        
     } else {
         if ([url isEqualToString:self.player.currentPlayUrl]) {
             return;

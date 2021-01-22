@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (strong) NSButton *playBtn;
 
+@property (strong) NSButton *refreshBtn;
+
 @property (strong) NSTextField *titleShowlabel;
 
 @property (strong) NSTextField *startLab;
@@ -24,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) CustomSlider *progressSlider;
 
 @property (copy) void(^playAction)(NSButton *btn);
+@property (copy) void(^refreshAction)(void);
 @property (copy) void(^sliderActionCallBack)(NSSlider *slider);
 @end
 

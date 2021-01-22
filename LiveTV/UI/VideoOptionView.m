@@ -26,6 +26,21 @@
 }
 
 - (void)initOperationUI:(NSRect)frameRect {
+    
+    self.refreshBtn =[NSButton new];
+    [self addSubview:self.refreshBtn];
+    self.refreshBtn.wantsLayer = true;///设置背景颜色
+    self.refreshBtn.layer.backgroundColor =[NSColor whiteColor].CGColor;
+    [self.refreshBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).offset(20);
+        make.centerY.equalTo(self.mas_centerY);
+        make.height.width.equalTo(@40);
+    }];
+    self.refreshBtn.title =@"刷新";
+    [self.refreshBtn setTarget:self];
+    [self.refreshBtn setAction:@selector(refreshAction:)];
+    
+    
  
     self.playBtn =[NSButton new];
     [self addSubview:self.playBtn];
@@ -128,6 +143,14 @@
    
     
 
+}
+
+
+
+- (void)refreshAction:(NSButton*)sender {
+    if (self.refreshAction) {
+        self.refreshAction();
+    }
 }
 
 - (void)playAction:(NSButton*)sender {
