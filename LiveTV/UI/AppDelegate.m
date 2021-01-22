@@ -368,13 +368,15 @@
     self.currentModel = model;
     if (self.choiceView) {
         [self.choiceView removeFromSuperview];
-        [self doneThis:model];
+        self.choiceView =nil;
+        [self doneThis:model row:row];
         return;
     }
   
     if ([self.dataArr count]>0) {
         if (self.choiceView) {
             [self.choiceView removeFromSuperview];
+            self.choiceView =nil;
         }
         
         if ([model.tplayurlArr count]<=1) {
@@ -385,31 +387,33 @@
                 self.operationView.titleShowlabel.stringValue =model.title;
             }
         } else {
-            [self doneThis:model];
+            [self doneThis:model row:row];
         }
      
     }
 
 }
 
--(void)doneThis:(FrontModel*)model {
+-(void)doneThis:(FrontModel*)model row:(NSInteger)row{
     @weakify(self)
     self.choiceView =[[TVSeriesView alloc] initWithFrame:self.contentView.bounds];
     [self.tvListView addSubview:self.choiceView];
     [self.choiceView bdingModel:model currentUrl:self.player.currentPlayUrl];
-    [self videoPlayWithURL:model.tplayurlArr[0]];
+    
     if ([model.tplayurlArr count]>0) {
-        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
+//        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
     } else {
         self.operationView.titleShowlabel.stringValue =model.title;
+        [self videoPlayWithURL:model.tplayurlArr[0]];
     }
     self.choiceView.choiceLinkCallback = ^(NSString * _Nonnull url, NSString * _Nonnull title, NSInteger idx) {
         @strongify(self)
         [self videoPlayWithURL:url];
         [self.choiceView removeFromSuperview];
+        self.choiceView =nil;
         self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第%ld集",title,idx+1];
         [self.tvListView deselectColumn:0];
-        [self.tvListView deselectRow:0];
+        [self.tvListView deselectRow:row];
     };
 }
 
