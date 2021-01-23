@@ -176,6 +176,10 @@
     [FrontModel Api_reqAction:url succ:^(NSString *msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             [weakSelf nsoptainalAction:urlArr];
+            if (self.choiceView) {
+                [self.choiceView removeFromSuperview];
+                self.choiceView =nil;
+            }
         }];
     }];
 }
