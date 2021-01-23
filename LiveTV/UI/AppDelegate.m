@@ -48,6 +48,8 @@
 
 @property (strong) VideoOptionView *operationView;
 
+@property (assign) NSInteger currentRow;
+
 @end
 
 @implementation AppDelegate
@@ -176,10 +178,7 @@
     [FrontModel Api_reqAction:url succ:^(NSString *msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             [weakSelf nsoptainalAction:urlArr];
-            if (self.choiceView) {
-                [self.choiceView removeFromSuperview];
-                self.choiceView =nil;
-            }
+           
         }];
     }];
 }
@@ -198,10 +197,7 @@
         } else {
             obj.contentTintColor = [NSColor blackColor];
         }
-        if (self.choiceView) {
-            [self.choiceView removeFromSuperview];
-            self.choiceView =nil;
-        }
+       
     }];
 }
 
@@ -233,7 +229,7 @@
                     if ([self.player.currentPlayUrl isEqualToString:obj]) {
                         *stop =YES;
                         if (idx!=([self.currentModel.tplayurlArr count]-1)) {
-                            [self videoPlayWithURL:self.currentModel.tplayurlArr[idx+2]];
+                            [self videoPlayWithURL:self.currentModel.tplayurlArr[idx+1]];
                             self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第%ld集",[self.currentModel title],idx+2];
                         }
                     }
@@ -276,6 +272,12 @@
                         [self.tvListView reloadData];
                         [self videoPlayWithURL:[self.dataArr[0] link]];
                         self.currentModel = self.dataArr[0];
+                        if (self.choiceView) {
+                            [self.choiceView removeFromSuperview];
+                            self.choiceView =nil;
+                            [self.tvListView deselectColumn:0];
+                            [self.tvListView deselectRow:self.currentRow];
+                        }
                         if ([[self.dataArr[0] tplayurlArr] count]>0) {
                             self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",[self.dataArr[0] title]];
                         } else {
