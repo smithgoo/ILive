@@ -359,8 +359,13 @@
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if ([self.dataArr count]>0) {
-        FrontModel *model = self.dataArr[row];
-        return model.title;
+        if ([self.dataArr count]>row) {
+            FrontModel *model = self.dataArr[row];
+            return model.title;
+        } else {
+            return @"";
+        }
+        
     }
     return @"";
  
