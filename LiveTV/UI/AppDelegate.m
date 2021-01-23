@@ -198,6 +198,10 @@
         } else {
             obj.contentTintColor = [NSColor blackColor];
         }
+        if (self.choiceView) {
+            [self.choiceView removeFromSuperview];
+            self.choiceView =nil;
+        }
     }];
 }
 
