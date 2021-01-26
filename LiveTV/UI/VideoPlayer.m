@@ -91,7 +91,7 @@
         }
         
         if (!isnan(totalTime)) {
-            if ((int)currentTime>=(int)totalTime) {
+            if ((int)currentTime>=(int)totalTime-1) {
                 if (self.playerCompliteCallBack) {
                     self.playerCompliteCallBack();
                 }
