@@ -340,6 +340,9 @@
             }
         }
         [self.tvListView reloadData];
+        if ([self.dataArr count]<=0) {
+            return;
+        }
         [self videoPlayWithURL:[self.dataArr[0] link]];
         self.currentModel = self.dataArr[0];
         if ([[self.dataArr[0] tplayurlArr] count]>0) {
