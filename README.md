@@ -16,7 +16,7 @@
         
 ## 2021.2.7
         .手机app提交
-        .会开发重签就可以使用。![](app.ipa)
+        .会开发重签就可以使用。https://github.com/smithgoo/ILive/blob/main/app.ipa
         
     
     
