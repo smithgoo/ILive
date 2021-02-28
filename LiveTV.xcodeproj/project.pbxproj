@@ -12,6 +12,7 @@
 		AA348ADF25AD5FDE009A5AD8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA348ADD25AD5FDE009A5AD8 /* MainMenu.xib */; };
 		AA348AE225AD5FDE009A5AD8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AE125AD5FDE009A5AD8 /* main.m */; };
 		AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AF825AD622B009A5AD8 /* FrontModel.m */; };
+		AA3E914425EB5A12008C4B69 /* VideoPageOpView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3E914325EB5A12008C4B69 /* VideoPageOpView.m */; };
 		AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1735125B1AAE10078C687 /* VideoPlayer.m */; };
 		AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736625B1C1670078C687 /* NSColor+Hexa.m */; };
 		AAD1736D25B1C1670078C687 /* CustomSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736A25B1C1670078C687 /* CustomSliderCell.m */; };
@@ -35,6 +36,8 @@
 		AA348AE325AD5FDE009A5AD8 /* LiveTV.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LiveTV.entitlements; sourceTree = "<group>"; };
 		AA348AF825AD622B009A5AD8 /* FrontModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FrontModel.m; sourceTree = "<group>"; };
 		AA348AFB25AD622B009A5AD8 /* FrontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontModel.h; sourceTree = "<group>"; };
+		AA3E914225EB5A12008C4B69 /* VideoPageOpView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPageOpView.h; sourceTree = "<group>"; };
+		AA3E914325EB5A12008C4B69 /* VideoPageOpView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPageOpView.m; sourceTree = "<group>"; };
 		AAD1735025B1AAE10078C687 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		AAD1735125B1AAE10078C687 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 		AAD1736625B1C1670078C687 /* NSColor+Hexa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Hexa.m"; sourceTree = "<group>"; };
@@ -122,6 +125,8 @@
 				AAD5B9A725B681D500CC3DA7 /* VideoOptionView.m */,
 				AAD1737225B1EBE10078C687 /* TVSeriesView.h */,
 				AAD1737325B1EBE10078C687 /* TVSeriesView.m */,
+				AA3E914225EB5A12008C4B69 /* VideoPageOpView.h */,
+				AA3E914325EB5A12008C4B69 /* VideoPageOpView.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 				AAD1737425B1EBE10078C687 /* TVSeriesView.m in Sources */,
 				AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */,
 				AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */,
+				AA3E914425EB5A12008C4B69 /* VideoPageOpView.m in Sources */,
 				AAD1736E25B1C1670078C687 /* CustomSlider.m in Sources */,
 				AA348AE225AD5FDE009A5AD8 /* main.m in Sources */,
 				AA348ADA25AD5FDC009A5AD8 /* AppDelegate.m in Sources */,

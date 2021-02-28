@@ -39,6 +39,7 @@
 }
 
 
+//获取当前点击的是电影还是电视剧的 点击返回的列表首页
 + (void)Api_reqAction:(NSString*)reqUrl succ:(void(^)(NSString*msg))callback {
     AFHTTPSessionManager *manager =[AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -52,6 +53,7 @@
     }];
 }
 
+//根据页面数据爬取列表页面详情
 + (void)Api_request_final_get_PageUrl:(NSString*)msg Succ:(void (^)(NSArray *urlArr))succ {
     NSError *error = nil;
     NSString *html =msg;
@@ -72,7 +74,7 @@
     succ(urlArr);
 }
 
-
+//根据列表页面获取剧集信息播放列表
 + (void)Api_request_final_get_PageDetail:(NSString*)msg Succ:(void (^)(id result))succ {
     NSError *error = nil;
     NSString *html =msg;
@@ -153,6 +155,35 @@
     model.link =model.tplayurlArr.firstObject;
     succ(model);
 }
+
+
+//根据链接获取当前的最大页码 做翻页操作
++ (void)Api_request_getAllinfosPage:(NSString*)msg  Succ:(void (^)(id result))succ {
+    NSError *error = nil;
+    NSString *html =msg;
+    FrontModel *model =[FrontModel new];
+    HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
+    if (error) {
+        NSLog(@"Error: %@", error);
+        return;
+    }
+    HTMLNode *bodyNode = [parser body];
+    NSArray*contentArr =[bodyNode findChildTags:@"a"];
+    NSMutableArray *muArr =[NSMutableArray array];
+    for (HTMLNode *inputNode in contentArr) {
+        if ([[inputNode getAttributeNamed:@"target"] isEqualToString:@"_self"]) {
+            [muArr addObject:[inputNode getAttributeNamed:@"href"]];
+        }
+    }
+    NSString *lastStr = muArr.lastObject;
+    NSArray *pageArr =[lastStr componentsSeparatedByString:@"-"];
+    NSString *tlastStr = pageArr.lastObject;
+    NSString *pageStr = [tlastStr componentsSeparatedByString:@"."].firstObject;
+    succ(pageStr);
+}
+
+
+
 
 
 @end

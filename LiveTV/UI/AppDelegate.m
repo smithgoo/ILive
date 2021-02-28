@@ -17,6 +17,7 @@
 #import "TVSeriesView.h"
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "VideoOptionView.h"
+#import "VideoPageOpView.h"
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 
 @property (strong) FrontModel *currentModel;
@@ -49,6 +50,12 @@
 @property (strong) VideoOptionView *operationView;
 
 @property (assign) NSInteger currentRow;
+ 
+@property (weak) IBOutlet NSView *rightBotView;
+
+@property (nonatomic) VideoPageOpView *pageOpView;
+
+@property (nonatomic) NSInteger topItemIdx;
 
 @end
 
@@ -56,6 +63,7 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    self.topItemIdx =0;
     self.linkArr =@[
         @"https://iptv-org.github.io/iptv/countries/cn.m3u",
         @"https://okzy.co/?m=vod-type-id-1.html",
@@ -134,8 +142,19 @@
         }
      
     };
- 
-     
+    
+    self.pageOpView =[[VideoPageOpView alloc] initWithFrame:self.rightBotView.bounds];
+    [self.rightBotView addSubview:self.pageOpView];
+    self.pageOpView.hidden =YES;
+    
+    //翻页操作
+    self.pageOpView.nextBtnClickCallback = ^(NSInteger page) {
+        @strongify(self)
+        NSLog(@"%ld_____",page);
+        NSString *link =[NSString stringWithFormat:@"https://okzy.co/?m=vod-type-id-%ld-pg-%ld.html",self.topItemIdx,page];
+        [self filterNormalM3u8ListByLink:link];
+    };
+   
 }
 
 
@@ -191,9 +210,12 @@
             obj.contentTintColor = [NSColor redColor];
             if (idx ==0) {
                 [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
+                self.pageOpView.hidden =YES;
             } else {
+                self.pageOpView.hidden =NO;
                 [self filterNormalM3u8ListByLink:self.linkArr[idx]];
             }
+            self.topItemIdx =idx;
         } else {
             obj.contentTintColor = [NSColor blackColor];
         }
@@ -246,13 +268,20 @@
     }
 }
 
+//点击头部切换获取页面和页面详情
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
     @weakify(self)
+    [self.pageOpView resetCurrentPage];
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             @strongify(self)
             [self nsoptainalAction:urlArr];
         }];
+        [FrontModel Api_request_getAllinfosPage:msg Succ:^(id  _Nonnull result) {
+            @strongify(self)
+            [self.pageOpView bdingTotalPage:[result integerValue]];
+        }];
+        
     }];
     
 }
