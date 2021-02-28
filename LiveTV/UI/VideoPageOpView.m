@@ -78,11 +78,14 @@
         }
     } else {
         if (self.nextBtnClickCallback) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.currentTef setStringValue:[NSString stringWithFormat:@"当前第%ld页,总%ld页",self.currentPage,self.totalPage]];
+            });
+        }
             self.nextBtnClickCallback(self.currentPage);
         }
     }
-    self.currentTef.stringValue =[NSString stringWithFormat:@"当前第%ld页,总%ld页",self.currentPage,self.totalPage];
-}
+    
 
 - (void)rightBtnAction:(NSButton*)sender {
     self.currentPage ++;
@@ -92,10 +95,14 @@
         }
     } else {
         if (self.nextBtnClickCallback) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.currentTef setStringValue:[NSString stringWithFormat:@"当前第%ld页,总%ld页",self.currentPage,self.totalPage]];
+            });
             self.nextBtnClickCallback(self.currentPage);
         }
     }
-    self.currentTef.stringValue =[NSString stringWithFormat:@"当前第%ld页,总%ld页",self.currentPage,self.totalPage];
+
+   
 }
 
 
