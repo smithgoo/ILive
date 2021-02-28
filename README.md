@@ -3,7 +3,7 @@
 ![](0.png)
 ## 直播和电影电视资源来源于网络
         
-        1.https://iptv-org.github.io
+        1.https://github.com/iptv-org/iptv
         2.https://okzy.co
         3.类似还有其他网站,电影天堂这种
 
