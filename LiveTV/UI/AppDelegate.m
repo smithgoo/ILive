@@ -354,12 +354,27 @@
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
     [self.playerContentView setNeedsLayout:YES];
     [self.operaContentView setNeedsLayout:YES];
-    self.player.playlayer.frame = self.playerContentView.bounds;
-    self.operationView.frame =self.operaContentView.bounds;
-
+    if (frameSize.width>=1920) {
+        CGRect xxrect =self.playerContentView.bounds;
+        xxrect.size.width = frameSize.width-164;
+        xxrect.size.height = xxrect.size.height;
+        CGRect yyrect =self.operaContentView.bounds;
+        yyrect.size.width = frameSize.width-164;
+        yyrect.size.height = yyrect.size.height;
+        self.player.playlayer.frame = xxrect;
+        self.operationView.frame =yyrect;
+    } else {
+        self.player.playlayer.frame = self.playerContentView.bounds;
+        self.operationView.frame =self.operaContentView.bounds;
+    }
+   
+    
+    
    
     return frameSize;
 }
+
+
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     
