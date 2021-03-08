@@ -3,7 +3,7 @@
 ![](0.png)
 ## 直播和电影电视资源来源于网络
         
-        1.https://iptv-org.github.io
+        1.https://github.com/iptv-org/iptv
         2.https://okzy.co
         3.类似还有其他网站,电影天堂这种
 
@@ -12,6 +12,17 @@
         1.利用上面网站爬取信息(理论上来讲只要网站遵循Robots协议 你都可以爬取到自己想要的 不限于资源 无非就是资源提取的问题 我先明白了python 爬取的原理 才开始写的这个macApp)
         2.爬取m3u8
         3.利用播放器播放
+
+
+## 2021.2.28
+        .新增翻页功能（ 电视剧 电影 综艺）
+        。UI需要优化
+        
+        
+## 2021.2.7
+        .手机app提交
+        .会开发重签就可以使用。https://github.com/smithgoo/ILive/blob/main/app.ipa
+        
     
     
 ## 2021.1.22

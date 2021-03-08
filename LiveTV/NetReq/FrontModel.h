@@ -85,12 +85,15 @@ typedef NS_ENUM(NSInteger,showType) {
 
 //获取直播返回的链接地址
 + (void)Api_request_getLiveM3u8LIstAddress:(NSString*)url succ:(void(^)(NSArray*msg))callback;
-
+//获取当前点击的是电影还是电视剧的 点击返回的列表首页
 + (void)Api_reqAction:(NSString*)reqUrl succ:(void(^)(NSString*msg))callback;
-
+//根据页面数据爬取列表页面详情
 + (void)Api_request_final_get_PageUrl:(NSString*)msg Succ:(void (^)(NSArray *urlArr))succ;
-
+//根据列表页面获取剧集信息播放列表
 + (void)Api_request_final_get_PageDetail:(NSString*)msg Succ:(void (^)(id result))succ;
+
+////根据链接获取当前的最大页码 做翻页操作
++ (void)Api_request_getAllinfosPage:(NSString*)msg  Succ:(void (^)(id result))succ;
 
 @end
 
