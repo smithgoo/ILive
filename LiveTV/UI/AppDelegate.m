@@ -212,6 +212,7 @@
                 [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
                 self.pageOpView.hidden =YES;
             } else {
+                [self.pageOpView resetCurrentPage];
                 self.pageOpView.hidden =NO;
                 [self filterNormalM3u8ListByLink:self.linkArr[idx]];
             }
@@ -271,7 +272,7 @@
 //点击头部切换获取页面和页面详情
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
     @weakify(self)
-    [self.pageOpView resetCurrentPage];
+  
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             @strongify(self)
