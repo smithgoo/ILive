@@ -13,6 +13,7 @@
 		AA348AE225AD5FDE009A5AD8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AE125AD5FDE009A5AD8 /* main.m */; };
 		AA348AFD25AD622B009A5AD8 /* FrontModel.m in Sources */ = {isa = PBXBuildFile; fileRef = AA348AF825AD622B009A5AD8 /* FrontModel.m */; };
 		AA3E914425EB5A12008C4B69 /* VideoPageOpView.m in Sources */ = {isa = PBXBuildFile; fileRef = AA3E914325EB5A12008C4B69 /* VideoPageOpView.m */; };
+		AAB4ED1926143BD9002184EE /* video.plist in Resources */ = {isa = PBXBuildFile; fileRef = AAB4ED1826143BD9002184EE /* video.plist */; };
 		AAD1735225B1AAE10078C687 /* VideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1735125B1AAE10078C687 /* VideoPlayer.m */; };
 		AAD1736C25B1C1670078C687 /* NSColor+Hexa.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736625B1C1670078C687 /* NSColor+Hexa.m */; };
 		AAD1736D25B1C1670078C687 /* CustomSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AAD1736A25B1C1670078C687 /* CustomSliderCell.m */; };
@@ -38,6 +39,7 @@
 		AA348AFB25AD622B009A5AD8 /* FrontModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrontModel.h; sourceTree = "<group>"; };
 		AA3E914225EB5A12008C4B69 /* VideoPageOpView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPageOpView.h; sourceTree = "<group>"; };
 		AA3E914325EB5A12008C4B69 /* VideoPageOpView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPageOpView.m; sourceTree = "<group>"; };
+		AAB4ED1826143BD9002184EE /* video.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = video.plist; sourceTree = "<group>"; };
 		AAD1735025B1AAE10078C687 /* VideoPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VideoPlayer.h; sourceTree = "<group>"; };
 		AAD1735125B1AAE10078C687 /* VideoPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VideoPlayer.m; sourceTree = "<group>"; };
 		AAD1736625B1C1670078C687 /* NSColor+Hexa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Hexa.m"; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				AA348B5725B1580A009A5AD8 /* UI */,
 				AA348ADB25AD5FDE009A5AD8 /* Assets.xcassets */,
 				AA348ADD25AD5FDE009A5AD8 /* MainMenu.xib */,
+				AAB4ED1826143BD9002184EE /* video.plist */,
 				AA348AE025AD5FDE009A5AD8 /* Info.plist */,
 				AA348AE125AD5FDE009A5AD8 /* main.m */,
 				AA348AE325AD5FDE009A5AD8 /* LiveTV.entitlements */,
@@ -212,6 +215,7 @@
 			files = (
 				AA348ADC25AD5FDE009A5AD8 /* Assets.xcassets in Resources */,
 				AA348ADF25AD5FDE009A5AD8 /* MainMenu.xib in Resources */,
+				AAB4ED1926143BD9002184EE /* video.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

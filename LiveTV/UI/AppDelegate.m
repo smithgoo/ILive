@@ -18,6 +18,7 @@
 #import <ReactiveCocoa/ReactiveCocoa.h>
 #import "VideoOptionView.h"
 #import "VideoPageOpView.h"
+#import <MJExtension/MJExtension.h>
 @interface AppDelegate ()<NSTableViewDelegate,NSTableViewDataSource,NSWindowDelegate>
 
 @property (strong) FrontModel *currentModel;
@@ -372,6 +373,7 @@
         if ([self.dataArr count]<=0) {
             return;
         }
+//        [self writeToFile:self.dataArr];
         [self videoPlayWithURL:[self.dataArr[0] link]];
         self.currentModel = self.dataArr[0];
         if ([[self.dataArr[0] tplayurlArr] count]>0) {
@@ -381,6 +383,19 @@
         }
     }];
 }
+
+- (void)writeToFile:(NSArray*)arr {
+    NSMutableArray *tarr =[NSMutableArray array];
+    [arr enumerateObjectsUsingBlock:^(FrontModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [tarr addObject:[obj mj_keyValues]];
+    }];
+    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+      NSString *path=[paths objectAtIndex:0];
+      NSString *Json_path=[path stringByAppendingPathComponent:@"JsonFile.json"];
+      //==写入文件
+      NSLog(@"%@",[tarr writeToFile:Json_path atomically:YES] ? @"Succeed":@"Failed");
+}
+
 
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
