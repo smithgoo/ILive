@@ -64,11 +64,13 @@
         return;
     }
     HTMLNode *bodyNode = [parser body];
-    NSArray*spanArr =[bodyNode findChildTags:@"span"];
+    NSArray*spanArr =[bodyNode findChildTags:@"h3"];
     for (HTMLNode *inputNode in spanArr) {
-        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"xing_vb4"]) {
-            NSString* url =[NSString stringWithFormat:@"%@%@",@"http://www.okzy.co",[[inputNode findChildTag:@"a"] getAttributeNamed:@"href"]];
-            [urlArr addObject:url];
+        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"title"]) {
+            NSString* url =[NSString stringWithFormat:@"%@%@",@"http://hct.dbyunzy.com/",[[inputNode findChildTag:@"a"] getAttributeNamed:@"href"]];
+            if (url.length>0) {
+                [urlArr addObject:url];
+            }
         }
     }
     succ(urlArr);
@@ -87,17 +89,23 @@
     HTMLNode *bodyNode = [parser body];
     NSArray*imgArr =[bodyNode findChildTags:@"img"];
     NSArray*contentArr =[bodyNode findChildTags:@"div"];
-    NSArray*m3u8Arr =[bodyNode findChildTags:@"input"];
+    NSArray*m3u8Arr =[bodyNode findChildTags:@"span"];
     for (HTMLNode *inputNode in imgArr) {
-        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"lazy"]) {
+        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"img-responsive"]) {
             model.cover =[[inputNode getAttributeNamed:@"src"] length]>0?[inputNode getAttributeNamed:@"src"]:@"";
+            if (![model.cover containsString:@"http"]) {
+                model.cover = [NSString stringWithFormat:@"%@%@",@"http://hct.dbyunzy.com/",model.cover];
+            }
             model.nickname = [[inputNode getAttributeNamed:@"alt"] length]>0?[inputNode getAttributeNamed:@"alt"]:@"";
+            if ([model.nickname containsString:@"}"]) {
+               model.nickname = [model.nickname substringToIndex:(model.nickname.length-1)];
+            }
         }
     }
     NSMutableArray *xxArr =[NSMutableArray array];
     for (HTMLNode *inputNode in contentArr) {
-        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"vodinfobox"]) {
-            [[inputNode findChildTags:@"li"] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"stui-content__detail"]) {
+            [[inputNode findChildTags:@"p"] enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 NSArray *arr =[[obj allContents] componentsSeparatedByString:@""];
                 [arr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     if ([obj containsString:@"导演"]) {
@@ -126,7 +134,7 @@
                 }];
             }];
         }
-        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"vodplayinfo"]) {
+        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"stui-content__desc col-pd clearfix"]) {
             [xxArr addObject:[inputNode rawContents]];
         }
     }
@@ -135,10 +143,12 @@
     }
     NSMutableArray *m3u8_totalArr =[NSMutableArray array];
     for (HTMLNode *inputNode in m3u8Arr) {
-        if ([[inputNode getAttributeNamed:@"type"] isEqualToString:@"checkbox"]) {
-            NSString *m3u8Str =[inputNode getAttributeNamed:@"value"];
-            if ([m3u8Str hasSuffix:@".m3u8"]) {
-                [m3u8_totalArr addObject:m3u8Str];
+        if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"hidden-xs"]) {
+            NSString *m3u8Str = [inputNode rawContents];
+            NSArray *marr = [m3u8Str componentsSeparatedByString:@"$"];
+            NSArray *narr = [marr[1] componentsSeparatedByString:@"<"];
+            if ([narr[0] hasSuffix:@"m3u8"]) {
+                [m3u8_totalArr addObject:narr[0]];
             }
         }
     }
@@ -151,8 +161,6 @@
     model.area =@"-";
     model.playurl =@"-";
     model.fname = @"-";
-    model.title =model.nickname;
-    model.link =model.tplayurlArr.firstObject;
     succ(model);
 }
 

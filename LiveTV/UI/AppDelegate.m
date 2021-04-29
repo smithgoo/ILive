@@ -67,9 +67,9 @@
     self.topItemIdx =0;
     self.linkArr =@[
         @"https://iptv-org.github.io/iptv/countries/cn.m3u",
-        @"https://okzy.co/?m=vod-type-id-1.html",
-        @"https://www.okzy.co/?m=vod-type-id-2.html",
-        @"https://www.okzy.co/?m=vod-type-id-3.html"];
+        @"http://hct.dbyunzy.com/index.php/vod/type/id/20.html",
+        @"http://hct.dbyunzy.com/index.php/vod/type/id/31.html",
+        @"http://hct.dbyunzy.com/index.php/vod/type/id/36.html"];
     [self setupUI];
     [self initWebData];
     
@@ -152,7 +152,7 @@
     self.pageOpView.nextBtnClickCallback = ^(NSInteger page) {
         @strongify(self)
         NSLog(@"%ld_____",page);
-        NSString *link =[NSString stringWithFormat:@"https://okzy.co/?m=vod-type-id-%ld-pg-%ld.html",self.topItemIdx,page];
+        NSString *link =[NSString stringWithFormat:@"%@/page/%ld.html",[self.linkArr[self.topItemIdx] componentsSeparatedByString:@".html"][0],page];
         [self filterNormalM3u8ListByLink:link];
     };
    
@@ -373,7 +373,7 @@
         if ([self.dataArr count]<=0) {
             return;
         }
-//        [self writeToFile:self.dataArr];
+       
         [self videoPlayWithURL:[self.dataArr[0] link]];
         self.currentModel = self.dataArr[0];
         if ([[self.dataArr[0] tplayurlArr] count]>0) {
@@ -384,17 +384,6 @@
     }];
 }
 
-- (void)writeToFile:(NSArray*)arr {
-    NSMutableArray *tarr =[NSMutableArray array];
-    [arr enumerateObjectsUsingBlock:^(FrontModel *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [tarr addObject:[obj mj_keyValues]];
-    }];
-    NSArray *paths=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-      NSString *path=[paths objectAtIndex:0];
-      NSString *Json_path=[path stringByAppendingPathComponent:@"JsonFile.json"];
-      //==写入文件
-      NSLog(@"%@",[tarr writeToFile:Json_path atomically:YES] ? @"Succeed":@"Failed");
-}
 
 
 
