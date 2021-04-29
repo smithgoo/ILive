@@ -30,7 +30,7 @@
 }
 
 - (void)setupUI {
-    self.currentPage =0;
+    self.currentPage =1;
     float tmpH =5;
     self.leftBtn =[[NSButton alloc] initWithFrame:CGRectMake(20, tmpH, self.frame.size.height-tmpH*2, self.frame.size.height-tmpH*2)];
     [self addSubview:self.leftBtn];

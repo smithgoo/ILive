@@ -213,6 +213,7 @@
                 [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
                 self.pageOpView.hidden =YES;
             } else {
+                [self.pageOpView resetCurrentPage];
                 self.pageOpView.hidden =NO;
                 [self filterNormalM3u8ListByLink:self.linkArr[idx]];
             }
@@ -272,7 +273,7 @@
 //点击头部切换获取页面和页面详情
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
     @weakify(self)
-    [self.pageOpView resetCurrentPage];
+  
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             @strongify(self)
@@ -390,12 +391,27 @@
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize {
     [self.playerContentView setNeedsLayout:YES];
     [self.operaContentView setNeedsLayout:YES];
-    self.player.playlayer.frame = self.playerContentView.bounds;
-    self.operationView.frame =self.operaContentView.bounds;
-
+    if (frameSize.width>=1920) {
+        CGRect xxrect =self.playerContentView.bounds;
+        xxrect.size.width = frameSize.width-164;
+        xxrect.size.height = xxrect.size.height;
+        CGRect yyrect =self.operaContentView.bounds;
+        yyrect.size.width = frameSize.width-164;
+        yyrect.size.height = yyrect.size.height;
+        self.player.playlayer.frame = xxrect;
+        self.operationView.frame =yyrect;
+    } else {
+        self.player.playlayer.frame = self.playerContentView.bounds;
+        self.operationView.frame =self.operaContentView.bounds;
+    }
+   
+    
+    
    
     return frameSize;
 }
+
+
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     
