@@ -56,7 +56,7 @@
 //根据页面数据爬取列表页面详情
 + (void)Api_request_final_get_PageUrl:(NSString*)msg Succ:(void (^)(NSArray *urlArr))succ {
     NSError *error = nil;
-    NSString *html =msg;
+    NSString *html =[self isBegin_n:msg];
     NSMutableArray *urlArr =[NSMutableArray array];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
     if (error) {
@@ -67,7 +67,7 @@
     NSArray*spanArr =[bodyNode findChildTags:@"span"];
     for (HTMLNode *inputNode in spanArr) {
         if ([[inputNode getAttributeNamed:@"class"] isEqualToString:@"xing_vb4"]) {
-            NSString* url =[NSString stringWithFormat:@"%@%@",@"http://www.okzy.co",[[inputNode findChildTag:@"a"] getAttributeNamed:@"href"]];
+            NSString* url =[NSString stringWithFormat:@"%@%@",@"http://www.1156zy.net",[[inputNode findChildTag:@"a"] getAttributeNamed:@"href"]];
             [urlArr addObject:url];
         }
     }
@@ -77,7 +77,7 @@
 //根据列表页面获取剧集信息播放列表
 + (void)Api_request_final_get_PageDetail:(NSString*)msg Succ:(void (^)(id result))succ {
     NSError *error = nil;
-    NSString *html =msg;
+    NSString *html =[self isBegin_n:msg];
     FrontModel *model =[FrontModel new];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
     if (error) {
@@ -160,7 +160,7 @@
 //根据链接获取当前的最大页码 做翻页操作
 + (void)Api_request_getAllinfosPage:(NSString*)msg  Succ:(void (^)(id result))succ {
     NSError *error = nil;
-    NSString *html =msg;
+    NSString *html =[self isBegin_n:msg];
     FrontModel *model =[FrontModel new];
     HTMLParser *parser = [[HTMLParser alloc] initWithString:html error:&error];
     if (error) {
@@ -182,6 +182,18 @@
     succ(pageStr);
 }
 
+
+
++ (NSString*)isBegin_n:(NSString*)msg {
+    NSString *xx =[msg substringToIndex:2];
+    NSString *tempStr = @"<";
+  
+    if (![xx isEqual:tempStr]) {
+       msg = [msg substringFromIndex:2];
+    }
+
+    return msg;
+}
 
 
 

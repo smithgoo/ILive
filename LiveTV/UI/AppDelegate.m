@@ -66,9 +66,9 @@
     self.topItemIdx =0;
     self.linkArr =@[
         @"https://iptv-org.github.io/iptv/countries/cn.m3u",
-        @"https://okzy.co/?m=vod-type-id-1.html",
-        @"https://www.okzy.co/?m=vod-type-id-2.html",
-        @"https://www.okzy.co/?m=vod-type-id-3.html"];
+        @"https://www.1156zy.net/?m=vod-type-id-1.html",
+        @"https://www.1156zy.net/?m=vod-type-id-2.html",
+        @"https://www.1156zy.net/?m=vod-type-id-3.html"];
     [self setupUI];
     [self initWebData];
     
@@ -151,7 +151,7 @@
     self.pageOpView.nextBtnClickCallback = ^(NSInteger page) {
         @strongify(self)
         NSLog(@"%ld_____",page);
-        NSString *link =[NSString stringWithFormat:@"https://okzy.co/?m=vod-type-id-%ld-pg-%ld.html",self.topItemIdx,page];
+        NSString *link =[NSString stringWithFormat:@"https://www.1156zy.net/?m=vod-type-id-%ld-pg-%ld.html",self.topItemIdx,page];
         [self filterNormalM3u8ListByLink:link];
     };
    
@@ -191,7 +191,7 @@
 }
 
 - (void)searchAction:(NSButton*)sender {
-    NSString *url =[NSString stringWithFormat:@"http://www.okzy.co/index.php?m=vod-search-pg-%ld-wd-%@.html",1,self.search.stringValue];
+    NSString *url =[NSString stringWithFormat:@"http://www.1156zy.net/index.php?m=vod-search-pg-%ld-wd-%@.html",1,self.search.stringValue];
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     __weak __typeof__(self) weakSelf = self;
     [FrontModel Api_reqAction:url succ:^(NSString *msg) {
