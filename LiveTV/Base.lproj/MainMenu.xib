@@ -687,13 +687,13 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="-17" y="-12"/>
+            <point key="canvasLocation" x="-49" y="-102"/>
         </menu>
         <window title="LiveTV" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="QvC-M9-y7g">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="915" height="500"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1080"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="900"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="915" height="500"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -810,7 +810,7 @@
                     <constraint firstItem="NMj-iP-iCu" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" id="y7l-NY-ODf"/>
                 </constraints>
             </view>
-            <point key="canvasLocation" x="-241.5" y="355"/>
+            <point key="canvasLocation" x="136" y="250"/>
         </window>
     </objects>
 </document>

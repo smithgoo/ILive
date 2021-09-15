@@ -73,9 +73,43 @@
     [self setupUI];
     [self initWebData];
     
+    
+    [self windowChangeAction];
+    
+    //点击关闭动作
+    [self closeAction];
+    
 }
 
+- (void)closeAction {
+    [NSApp setDelegate:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeWindow) name:NSWindowWillCloseNotification object:_window];
+}
+
+- (void)closeWindow {
+    [NSApp terminate:self];
+}
+
+
+- (void)windowChangeAction {
+    [[NSNotificationCenter defaultCenter] addObserver:_window selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self];
+    
+}
+
+- (void)windowDidResize:(NSNotification *)notification {
+    [_window miniaturize:nil];
+}
+
+
+
+
+
+
+
 - (void)setupUI {
+    
+
+    
     self.window.delegate =self;
     self.btnArr =[NSMutableArray array];
     for (int index =0; index<4; index++) {
@@ -113,6 +147,9 @@
     [btn setTarget:self];
     [btn setAction:@selector(searchAction:)];
     
+    
+    
+    
     self.bottomContentView.layer.backgroundColor =[NSColor blackColor].CGColor;
     self.tvListView.hidden = NO;
     self.operationView =[[VideoOptionView alloc] initWithFrame:self.operaContentView.bounds];
@@ -143,6 +180,9 @@
         }
      
     };
+    
+    
+    
     
     self.pageOpView =[[VideoPageOpView alloc] initWithFrame:self.rightBotView.bounds];
     [self.rightBotView addSubview:self.pageOpView];
