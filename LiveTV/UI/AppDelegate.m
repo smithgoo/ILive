@@ -97,7 +97,7 @@
 }
 
 - (void)windowDidResize:(NSNotification *)notification {
-    [_window miniaturize:nil];
+//    [_window miniaturize:nil];
 }
 
 
