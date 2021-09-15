@@ -92,7 +92,7 @@
 
 
 - (void)windowChangeAction {
-    [[NSNotificationCenter defaultCenter] addObserver:_window selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:_window];
     
 }
 
