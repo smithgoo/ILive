@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (copy) void(^playAction)(NSButton *btn);
 @property (copy) void(^refreshAction)(void);
+@property (copy) void(^fullScreenAction)(void);
 @property (copy) void(^sliderActionCallBack)(NSSlider *slider);
 @end
 

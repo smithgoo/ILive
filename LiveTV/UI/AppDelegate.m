@@ -58,6 +58,8 @@
 
 @property (nonatomic) NSInteger topItemIdx;
 
+@property (assign) bool isFullScreen;
+
 @end
 
 @implementation AppDelegate
@@ -70,11 +72,12 @@
         @"http://hct.dbyunzy.com/index.php/vod/type/id/20.html",
         @"http://hct.dbyunzy.com/index.php/vod/type/id/31.html",
         @"http://hct.dbyunzy.com/index.php/vod/type/id/36.html"];
+    self.isFullScreen = NO;
     [self setupUI];
     [self initWebData];
     
-    
-    [self windowChangeAction];
+   
+
     
     //点击关闭动作
     [self closeAction];
@@ -90,26 +93,30 @@
     [NSApp terminate:self];
 }
 
-
-- (void)windowChangeAction {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:_window];
-    
+ 
+- (void)windowWillEnterFullScreen:(NSNotification *)notification {
+    self.isFullScreen = YES;
+//    self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
+//    self.player.playlayer.frame = CGRectMake(0, 0, 1280, 800);
+//    [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
 
-- (void)windowDidResize:(NSNotification *)notification {
-//    [_window miniaturize:nil];
+- (void)windowWillExitFullScreen:(NSNotification *)notification
+{
+    self.isFullScreen = NO;
+//    [self.bottomContentView exitFullScreenModeWithOptions:nil];
+   
 }
-
-
 
 
 
 
 
 - (void)setupUI {
-    
-
-    
+    //隐藏关闭最大和缩小按钮
+    [[_window standardWindowButton:NSWindowZoomButton] setHidden:YES];
+    [[_window standardWindowButton:NSWindowMiniaturizeButton]
+        setHidden:YES];
     self.window.delegate =self;
     self.btnArr =[NSMutableArray array];
     for (int index =0; index<4; index++) {
@@ -180,6 +187,16 @@
         }
      
     };
+ 
+    self.operationView.fullScreenAction = ^{
+        @strongify(self)
+        self.isFullScreen = !self.isFullScreen;
+        if (self.isFullScreen) {
+          [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+        } else {
+            [self.bottomContentView exitFullScreenModeWithOptions:nil];
+        }
+    };
     
     
     
@@ -195,6 +212,7 @@
         NSString *link =[NSString stringWithFormat:@"%@/page/%ld.html",[self.linkArr[self.topItemIdx] componentsSeparatedByString:@".html"][0],page];
         [self filterNormalM3u8ListByLink:link];
     };
+    
    
 }
 

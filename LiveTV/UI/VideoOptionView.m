@@ -66,6 +66,8 @@
         make.centerY.equalTo(self.mas_centerY);
         make.height.width.equalTo(@40);
     }];
+    [self.fullSecreenBtn setTarget:self];
+    [self.fullSecreenBtn setAction:@selector(fullScreenAction:)];
     
     
     self.startLab =[NSTextField new];
@@ -168,5 +170,13 @@
     }
  
 }
+
+- (void)fullScreenAction:(NSButton*)sender {
+    if (self.fullScreenAction) {
+        self.fullScreenAction();
+    }
+ 
+}
+
 
 @end
