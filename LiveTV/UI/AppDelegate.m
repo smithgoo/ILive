@@ -68,6 +68,11 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
+    [NSEvent addGlobalMonitorForEventsMatchingMask:NSLeftMouseDown | NSRightMouseDownMask | NSMouseMovedMask | NSLeftMouseDragged | NSRightMouseDraggedMask handler:^(NSEvent * _Nonnull event) {
+        if (self.isFullScreen) {
+//            self.operationView.hidden =NO;
+        }
+    }];
     self.topItemIdx =0;
     self.linkArr =@[@"https://iptv-org.github.io/iptv/countries/cn.m3u",@"https://iptv-org.github.io/iptv/countries/jp.m3u",@"https://iptv-org.github.io/iptv/countries/kr.m3u",@"https://iptv-org.github.io/iptv/countries/us.m3u",@"https://iptv-org.github.io/iptv/countries/uk.m3u",@"https://iptv-org.github.io/iptv/countries/th.m3u",@""];
     self.namesArr =@[@"🇨🇳中国",@"🇯🇵日本",@"🇰🇷韩国",@"🇺🇸美国",@"🇬🇧英国",@"🇹🇭泰国",@"☁️热播网剧"];
@@ -194,7 +199,7 @@
         self.isFullScreen = !self.isFullScreen;
         if (self.isFullScreen) {
             [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-            self.operationView.hidden =YES;
+//            self.operationView.hidden =YES;
         } else {
             [self.bottomContentView exitFullScreenModeWithOptions:nil];
         }

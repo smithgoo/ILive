@@ -8,6 +8,10 @@
 	<string>en</string>
 	<key>CFBundleExecutable</key>
 	<string>LiveTV</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CFBundleIdentifier</key>
 	<string>xxx.LiveTV</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -41,7 +45,7 @@
 	<key>DTXcodeBuild</key>
 	<string>12D4e</string>
 	<key>LSMinimumSystemVersion</key>
-	<string>11.1</string>
+	<string>10.9</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
