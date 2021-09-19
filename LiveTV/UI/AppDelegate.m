@@ -52,7 +52,7 @@
 @property (strong) VideoOptionView *operationView;
 
 @property (assign) NSInteger currentRow;
- 
+
 @property (weak) IBOutlet NSView *rightBotView;
 
 @property (nonatomic) VideoPageOpView *pageOpView;
@@ -74,7 +74,7 @@
     self.isFullScreen = NO;
     [self setupUI];
     [self initWebData];
-     
+    
     //点击关闭动作
     [self closeAction];
     
@@ -91,19 +91,19 @@
     [NSApp terminate:self];
 }
 
- 
+
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
     self.isFullScreen = YES;
-//    self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
-//    self.player.playlayer.frame = CGRectMake(0, 0, 1280, 800);
-//    [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    //    self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
+    //    self.player.playlayer.frame = CGRectMake(0, 0, 1280, 800);
+    //    [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
 {
     self.isFullScreen = NO;
-//    [self.bottomContentView exitFullScreenModeWithOptions:nil];
-   
+    //    [self.bottomContentView exitFullScreenModeWithOptions:nil];
+    
 }
 
 
@@ -116,7 +116,7 @@
     //隐藏关闭最大和缩小按钮
     [[_window standardWindowButton:NSWindowZoomButton] setHidden:YES];
     [[_window standardWindowButton:NSWindowMiniaturizeButton]
-        setHidden:YES];
+     setHidden:YES];
     self.window.delegate =self;
     self.btnArr =[NSMutableArray array];
     for (int index =0; index<[self.linkArr count]; index++) {
@@ -133,26 +133,26 @@
         [btn setTarget:self];
         [btn setAction:@selector(topmenuClick:)];
     }
-//    self.search =[NSTextField new];
-//    [self.topMenuView addSubview:self.search];
-//    [self.search mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.topMenuView.mas_left).offset(400);
-//        make.top.equalTo(self.topMenuView.mas_top);
-//        make.bottom.equalTo(self.topMenuView.mas_bottom);
-//        make.width.equalTo(@300);
-//    }];
-//    self.search.placeholderString =@"🔍搜索影片";
-//    NSButton *btn =[NSButton new];
-//    [self.topMenuView addSubview:btn];
-//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.search.mas_right);
-//        make.top.equalTo(self.topMenuView.mas_top);
-//        make.width.equalTo(@100);
-//        make.height.equalTo(@30);
-//    }];
-//    [btn setTitle:@"搜索"];
-//    [btn setTarget:self];
-//    [btn setAction:@selector(searchAction:)];
+    //    self.search =[NSTextField new];
+    //    [self.topMenuView addSubview:self.search];
+    //    [self.search mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.equalTo(self.topMenuView.mas_left).offset(400);
+    //        make.top.equalTo(self.topMenuView.mas_top);
+    //        make.bottom.equalTo(self.topMenuView.mas_bottom);
+    //        make.width.equalTo(@300);
+    //    }];
+    //    self.search.placeholderString =@"🔍搜索影片";
+    //    NSButton *btn =[NSButton new];
+    //    [self.topMenuView addSubview:btn];
+    //    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.equalTo(self.search.mas_right);
+    //        make.top.equalTo(self.topMenuView.mas_top);
+    //        make.width.equalTo(@100);
+    //        make.height.equalTo(@30);
+    //    }];
+    //    [btn setTitle:@"搜索"];
+    //    [btn setTarget:self];
+    //    [btn setAction:@selector(searchAction:)];
     
     
     
@@ -185,23 +185,23 @@
                 }
             }];
         }
-     
+        
     };
- 
+    
     self.operationView.fullScreenAction = ^{
         @strongify(self)
+        self.window.titleVisibility = YES;
         self.isFullScreen = !self.isFullScreen;
         if (self.isFullScreen) {
-          [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-            self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
-            self.player.frame = CGRectMake(0, 0, 1280, 800);
+            [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+            self.operationView.hidden =YES;
         } else {
             [self.bottomContentView exitFullScreenModeWithOptions:nil];
         }
+        self.operationView.frame =self.operaContentView.bounds;
+        self.player.playlayer.frame = self.playerContentView.bounds;
+        self.operationView.fullSecreenBtn.hidden = NO;
     };
-    
-    
-    
     
     self.pageOpView =[[VideoPageOpView alloc] initWithFrame:self.rightBotView.bounds];
     [self.rightBotView addSubview:self.pageOpView];
@@ -215,9 +215,10 @@
         [self filterNormalM3u8ListByLink:link];
     };
     
-   
-   
 }
+
+
+
 
 
 - (void)playAction:(NSButton*)sender {
@@ -236,12 +237,12 @@
         [self.player.player pause]; //播放状态就暂停
     }
     NSSlider *slider = (NSSlider *)sender;
-
+    
     float totalTime = CMTimeGetSeconds(self.player.playItem.duration)/100.0;
-
+    
     float present = slider.floatValue;
     self.operationView.startLab.stringValue = [self getMMSSFromSS:[NSString stringWithFormat:@"%f",totalTime*present]];
-
+    
     [self.player.player seekToTime:CMTimeMakeWithSeconds(totalTime*present, 600) toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
         @strongify(self)
         if (finished ==YES) {
@@ -249,7 +250,7 @@
         }
     }];
     
-
+    
 }
 
 - (void)searchAction:(NSButton*)sender {
@@ -259,7 +260,7 @@
     [FrontModel Api_reqAction:url succ:^(NSString *msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             [weakSelf nsoptainalAction:urlArr];
-           
+            
         }];
     }];
 }
@@ -270,22 +271,25 @@
         @strongify(self)
         if (idx !=([self.btnArr count] -1)) {
             if ([sender isEqual:obj]) {
-                obj.contentTintColor = [NSColor redColor];
-    //            if (idx ==0) {
-    //                [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
-    //                self.pageOpView.hidden =YES;
-    //            } else {
-                    [self.pageOpView resetCurrentPage];
-                    self.pageOpView.hidden =NO;
+                obj.wantsLayer = YES;
+                obj.layer.backgroundColor = [NSColor systemPinkColor].CGColor;
+                //            if (idx ==0) {
+                //                [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
+                //                self.pageOpView.hidden =YES;
+                //            } else {
+                [self.pageOpView resetCurrentPage];
+                self.pageOpView.hidden =NO;
                 [self filterLIVEM3u8ListByLink:self.linkArr[idx]];
                 self.nameTef.stringValue =[NSString stringWithFormat:@"%@ 📺",self.namesArr[idx]];
-    //                [self filterNormalM3u8ListByLink:self.linkArr[idx]];
-    //            }
+                //                [self filterNormalM3u8ListByLink:self.linkArr[idx]];
+                //            }
                 self.topItemIdx =idx;
             } else {
-                obj.contentTintColor = [NSColor blackColor];
+                //                obj.contentTintColor = [NSColor blackColor];
+                obj.wantsLayer = YES;
+                obj.layer.backgroundColor = [NSColor whiteColor].CGColor;
             }
-        } 
+        }
     }];
 }
 
@@ -324,7 +328,7 @@
                 }];
             }
         };
-       
+        
         
     } else {
         if ([url isEqualToString:self.player.currentPlayUrl]) {
@@ -337,7 +341,7 @@
 //点击头部切换获取页面和页面详情
 - (void)filterNormalM3u8ListByLink:(NSString*)link  {
     @weakify(self)
-  
+    
     [FrontModel Api_reqAction:link succ:^(NSString * _Nonnull msg) {
         [FrontModel Api_request_final_get_PageUrl:msg Succ:^(NSArray * _Nonnull urlArr) {
             @strongify(self)
@@ -440,7 +444,7 @@
         if ([self.dataArr count]<=0) {
             return;
         }
-       
+        
         [self videoPlayWithURL:[self.dataArr[0] link]];
         self.currentModel = self.dataArr[0];
         if ([[self.dataArr[0] tplayurlArr] count]>0) {
@@ -470,10 +474,10 @@
         self.player.playlayer.frame = self.playerContentView.bounds;
         self.operationView.frame =self.operaContentView.bounds;
     }
-   
     
     
-   
+    
+    
     return frameSize;
 }
 
@@ -496,7 +500,7 @@
         
     }
     return @"";
- 
+    
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row {
@@ -509,7 +513,7 @@
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)notification{
-  
+    
     NSInteger row = [self.tvListView selectedRow];
     if (row<0) {
         return;
@@ -519,12 +523,12 @@
     if (self.choiceView) {
         [self.choiceView removeFromSuperview];
         self.choiceView =nil;
-//        [self doneThis:model row:row];
+        //        [self doneThis:model row:row];
         [self.tvListView deselectColumn:0];
         [self.tvListView deselectRow:row];
         return;
     }
-  
+    
     if ([self.dataArr count]>0) {
         if (self.choiceView) {
             [self.choiceView removeFromSuperview];
@@ -541,9 +545,9 @@
         } else {
             [self doneThis:model row:row];
         }
-     
+        
     }
-
+    
 }
 
 -(void)doneThis:(FrontModel*)model row:(NSInteger)row{
@@ -553,7 +557,7 @@
     [self.choiceView bdingModel:model currentUrl:self.player.currentPlayUrl];
     
     if ([model.tplayurlArr count]>0) {
-//        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
+        //        self.operationView.titleShowlabel.stringValue =[NSString stringWithFormat:@"%@-第1集",model.title];
     } else {
         self.operationView.titleShowlabel.stringValue =model.title;
         [self videoPlayWithURL:model.tplayurlArr[0]];
@@ -572,9 +576,9 @@
 
 //传入 秒  得到 xx:xx:xx
 -(NSString *)getMMSSFromSS:(NSString *)totalTime{
-
+    
     NSInteger seconds = [totalTime integerValue];
-
+    
     //format of hour
     NSString *str_hour = [NSString stringWithFormat:@"%02ld",seconds/3600];
     //format of minute
@@ -583,25 +587,25 @@
     NSString *str_second = [NSString stringWithFormat:@"%02ld",seconds%60];
     //format of time
     NSString *format_time = [NSString stringWithFormat:@"%@:%@:%@",str_hour,str_minute,str_second];
-
+    
     return format_time;
-
+    
 }
 
 - (void) getScreenResolution {
-
+    
     NSArray *screenArray = [NSScreen screens];
     NSScreen *mainScreen = [NSScreen mainScreen];
     unsigned screenCount = [screenArray count];
     unsigned index  = 0;
-
+    
     for (index; index < screenCount; index++)
     {
-      NSScreen *screen = [screenArray objectAtIndex: index];
-      NSRect screenRect = [screen visibleFrame];
-      NSString *mString = ((mainScreen == screen) ? @"Main" : @"not-main");
-
-      NSLog(@"Screen #%d (%@) Frame: %@", index, mString, NSStringFromRect(screenRect));
+        NSScreen *screen = [screenArray objectAtIndex: index];
+        NSRect screenRect = [screen visibleFrame];
+        NSString *mString = ((mainScreen == screen) ? @"Main" : @"not-main");
+        
+        NSLog(@"Screen #%d (%@) Frame: %@", index, mString, NSStringFromRect(screenRect));
     }
 }
 
