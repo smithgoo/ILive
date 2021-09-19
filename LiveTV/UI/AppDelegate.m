@@ -36,6 +36,7 @@
 @property (weak) IBOutlet NSView *topMenuView;
 @property (strong) NSMutableArray *btnArr;
 @property (strong) NSArray *linkArr;
+@property (strong) NSArray *namesArr;
 @property (strong) NSTextField *search;
 
 @property (weak) IBOutlet NSView *bottomContentView;
@@ -59,6 +60,7 @@
 @property (nonatomic) NSInteger topItemIdx;
 
 @property (assign) bool isFullScreen;
+@property (weak) IBOutlet NSTextField *nameTef;
 
 @end
 
@@ -67,20 +69,16 @@
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
     self.topItemIdx =0;
-    self.linkArr =@[
-        @"https://iptv-org.github.io/iptv/countries/cn.m3u",
-        @"http://hct.dbyunzy.com/index.php/vod/type/id/20.html",
-        @"http://hct.dbyunzy.com/index.php/vod/type/id/31.html",
-        @"http://hct.dbyunzy.com/index.php/vod/type/id/36.html"];
+    self.linkArr =@[@"https://iptv-org.github.io/iptv/countries/cn.m3u",@"https://iptv-org.github.io/iptv/countries/jp.m3u",@"https://iptv-org.github.io/iptv/countries/kr.m3u",@"https://iptv-org.github.io/iptv/countries/us.m3u",@"https://iptv-org.github.io/iptv/countries/uk.m3u",@"https://iptv-org.github.io/iptv/countries/th.m3u",@""];
+    self.namesArr =@[@"🇨🇳中国",@"🇯🇵日本",@"🇰🇷韩国",@"🇺🇸美国",@"🇬🇧英国",@"🇹🇭泰国",@"☁️热播网剧"];
     self.isFullScreen = NO;
     [self setupUI];
     [self initWebData];
-    
-   
-
-    
+     
     //点击关闭动作
     [self closeAction];
+    
+    [self getScreenResolution];
     
 }
 
@@ -113,13 +111,15 @@
 
 
 - (void)setupUI {
+    [self.tvListView setHeaderView:nil];
+    self.nameTef.stringValue =[NSString stringWithFormat:@"%@ 📺",self.namesArr.firstObject];
     //隐藏关闭最大和缩小按钮
     [[_window standardWindowButton:NSWindowZoomButton] setHidden:YES];
     [[_window standardWindowButton:NSWindowMiniaturizeButton]
         setHidden:YES];
     self.window.delegate =self;
     self.btnArr =[NSMutableArray array];
-    for (int index =0; index<4; index++) {
+    for (int index =0; index<[self.linkArr count]; index++) {
         NSButton *btn =[NSButton new];
         [self.topMenuView addSubview:btn];
         [btn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -128,31 +128,31 @@
             make.width.equalTo(@100);
             make.height.equalTo(@30);
         }];
-        [btn setTitle:@[@"电视直播",@"电影",@"电视剧",@"综艺"][index]];
+        [btn setTitle:self.namesArr[index]];
         [self.btnArr addObject:btn];
         [btn setTarget:self];
         [btn setAction:@selector(topmenuClick:)];
     }
-    self.search =[NSTextField new];
-    [self.topMenuView addSubview:self.search];
-    [self.search mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.topMenuView.mas_left).offset(400);
-        make.top.equalTo(self.topMenuView.mas_top);
-        make.bottom.equalTo(self.topMenuView.mas_bottom);
-        make.width.equalTo(@300);
-    }];
-    self.search.placeholderString =@"🔍搜索影片";
-    NSButton *btn =[NSButton new];
-    [self.topMenuView addSubview:btn];
-    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.search.mas_right);
-        make.top.equalTo(self.topMenuView.mas_top);
-        make.width.equalTo(@100);
-        make.height.equalTo(@30);
-    }];
-    [btn setTitle:@"搜索"];
-    [btn setTarget:self];
-    [btn setAction:@selector(searchAction:)];
+//    self.search =[NSTextField new];
+//    [self.topMenuView addSubview:self.search];
+//    [self.search mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.topMenuView.mas_left).offset(400);
+//        make.top.equalTo(self.topMenuView.mas_top);
+//        make.bottom.equalTo(self.topMenuView.mas_bottom);
+//        make.width.equalTo(@300);
+//    }];
+//    self.search.placeholderString =@"🔍搜索影片";
+//    NSButton *btn =[NSButton new];
+//    [self.topMenuView addSubview:btn];
+//    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(self.search.mas_right);
+//        make.top.equalTo(self.topMenuView.mas_top);
+//        make.width.equalTo(@100);
+//        make.height.equalTo(@30);
+//    }];
+//    [btn setTitle:@"搜索"];
+//    [btn setTarget:self];
+//    [btn setAction:@selector(searchAction:)];
     
     
     
@@ -193,6 +193,8 @@
         self.isFullScreen = !self.isFullScreen;
         if (self.isFullScreen) {
           [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+            self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
+            self.player.frame = CGRectMake(0, 0, 1280, 800);
         } else {
             [self.bottomContentView exitFullScreenModeWithOptions:nil];
         }
@@ -213,6 +215,7 @@
         [self filterNormalM3u8ListByLink:link];
     };
     
+   
    
 }
 
@@ -265,21 +268,24 @@
     @weakify(self)
     [self.btnArr enumerateObjectsUsingBlock:^(NSButton * obj, NSUInteger idx, BOOL * _Nonnull stop) {
         @strongify(self)
-        if ([sender isEqual:obj]) {
-            obj.contentTintColor = [NSColor redColor];
-            if (idx ==0) {
-                [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
-                self.pageOpView.hidden =YES;
+        if (idx !=([self.btnArr count] -1)) {
+            if ([sender isEqual:obj]) {
+                obj.contentTintColor = [NSColor redColor];
+    //            if (idx ==0) {
+    //                [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
+    //                self.pageOpView.hidden =YES;
+    //            } else {
+                    [self.pageOpView resetCurrentPage];
+                    self.pageOpView.hidden =NO;
+                [self filterLIVEM3u8ListByLink:self.linkArr[idx]];
+                self.nameTef.stringValue =[NSString stringWithFormat:@"%@ 📺",self.namesArr[idx]];
+    //                [self filterNormalM3u8ListByLink:self.linkArr[idx]];
+    //            }
+                self.topItemIdx =idx;
             } else {
-                [self.pageOpView resetCurrentPage];
-                self.pageOpView.hidden =NO;
-                [self filterNormalM3u8ListByLink:self.linkArr[idx]];
+                obj.contentTintColor = [NSColor blackColor];
             }
-            self.topItemIdx =idx;
-        } else {
-            obj.contentTintColor = [NSColor blackColor];
-        }
-       
+        } 
     }];
 }
 
@@ -288,7 +294,7 @@
     self.tvListView.delegate =self;
     self.tvListView.dataSource =self;
     self.dataArr =[NSMutableArray array];
-    [self filterLIVEM3u8ListByLink:@"https://iptv-org.github.io/iptv/countries/cn.m3u"];
+    [self filterLIVEM3u8ListByLink:self.linkArr.firstObject];
 }
 
 
@@ -415,7 +421,9 @@
                 FrontModel *model =[FrontModel new];
                 model.title = title;
                 model.link = tlink;
-                [self.dataArr addObject:model];
+                if (![model.title hasPrefix:@"http"]) {
+                    [self.dataArr addObject:model];
+                }
             }
         }];
         
@@ -578,6 +586,23 @@
 
     return format_time;
 
+}
+
+- (void) getScreenResolution {
+
+    NSArray *screenArray = [NSScreen screens];
+    NSScreen *mainScreen = [NSScreen mainScreen];
+    unsigned screenCount = [screenArray count];
+    unsigned index  = 0;
+
+    for (index; index < screenCount; index++)
+    {
+      NSScreen *screen = [screenArray objectAtIndex: index];
+      NSRect screenRect = [screen visibleFrame];
+      NSString *mString = ((mainScreen == screen) ? @"Main" : @"not-main");
+
+      NSLog(@"Screen #%d (%@) Frame: %@", index, mString, NSStringFromRect(screenRect));
+    }
 }
 
 

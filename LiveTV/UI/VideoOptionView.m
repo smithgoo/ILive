@@ -139,10 +139,8 @@
     self.titleShowlabel.enabled =NO;
     self.titleShowlabel.font =[NSFont systemFontOfSize:14];
     self.titleShowlabel.textColor =[NSColor blackColor];
- 
-    
     self.titleShowlabel.maximumNumberOfLines = 1;//最多显示行数
-   
+    [[self.titleShowlabel cell] setAlignment:NSTextAlignmentCenter];
     
 
 }
