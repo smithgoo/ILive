@@ -68,10 +68,14 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // Insert code here to initialize your application
-    [NSEvent addGlobalMonitorForEventsMatchingMask:NSLeftMouseDown | NSRightMouseDownMask | NSMouseMovedMask | NSLeftMouseDragged | NSRightMouseDraggedMask handler:^(NSEvent * _Nonnull event) {
+    [NSEvent addLocalMonitorForEventsMatchingMask:NSEventMaskLeftMouseDown | NSEventMaskRightMouseDown | NSEventMaskMouseMoved handler:^NSEvent* (NSEvent* event) {
         if (self.isFullScreen) {
-//            self.operationView.hidden =NO;
+            if (event.type ==NSEventTypeMouseMoved  ) {
+                self.operationView.hidden = No;
+            }
         }
+        
+        return event;
     }];
     self.topItemIdx =0;
     self.linkArr =@[@"https://iptv-org.github.io/iptv/countries/cn.m3u",@"https://iptv-org.github.io/iptv/countries/jp.m3u",@"https://iptv-org.github.io/iptv/countries/kr.m3u",@"https://iptv-org.github.io/iptv/countries/us.m3u",@"https://iptv-org.github.io/iptv/countries/uk.m3u",@"https://iptv-org.github.io/iptv/countries/th.m3u",@""];
@@ -99,15 +103,19 @@
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification {
     self.isFullScreen = YES;
-    //    self.bottomContentView.frame =CGRectMake(0, 0, 1280, 800);
-    //    self.player.playlayer.frame = CGRectMake(0, 0, 1280, 800);
-    //    [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+//    [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    self.operationView.frame =self.operaContentView.bounds;
+    self.player.playlayer.frame = self.playerContentView.bounds;
+    self.operationView.fullSecreenBtn.hidden = NO;
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
 {
     self.isFullScreen = NO;
-    //    [self.bottomContentView exitFullScreenModeWithOptions:nil];
+//    [self.bottomContentView exitFullScreenModeWithOptions:nil];
+    self.operationView.frame =self.operaContentView.bounds;
+    self.player.playlayer.frame = self.playerContentView.bounds;
+    self.operationView.fullSecreenBtn.hidden = NO;
     
 }
 
@@ -119,9 +127,9 @@
     [self.tvListView setHeaderView:nil];
     self.nameTef.stringValue =[NSString stringWithFormat:@"%@ 📺",self.namesArr.firstObject];
     //隐藏关闭最大和缩小按钮
-    [[_window standardWindowButton:NSWindowZoomButton] setHidden:YES];
-    [[_window standardWindowButton:NSWindowMiniaturizeButton]
-     setHidden:YES];
+//    [[_window standardWindowButton:NSWindowZoomButton] setHidden:YES];
+//    [[_window standardWindowButton:NSWindowMiniaturizeButton]
+//     setHidden:YES];
     self.window.delegate =self;
     self.btnArr =[NSMutableArray array];
     for (int index =0; index<[self.linkArr count]; index++) {
@@ -195,11 +203,10 @@
     
     self.operationView.fullScreenAction = ^{
         @strongify(self)
-        self.window.titleVisibility = YES;
         self.isFullScreen = !self.isFullScreen;
         if (self.isFullScreen) {
             [self.bottomContentView enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-//            self.operationView.hidden =YES;
+            self.operationView.hidden =YES;
         } else {
             [self.bottomContentView exitFullScreenModeWithOptions:nil];
         }

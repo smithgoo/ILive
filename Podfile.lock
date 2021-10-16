@@ -5,20 +5,12 @@ PODS:
     - AFNetworking/Security (= 4.0.1)
     - AFNetworking/Serialization (= 4.0.1)
     - AFNetworking/UIKit (= 4.0.1)
-  - AFNetworking/NSURLSession (4.0.1):
-    - AFNetworking/Reachability
-    - AFNetworking/Security
-    - AFNetworking/Serialization
-  - AFNetworking/Reachability (4.0.1)
-  - AFNetworking/Security (4.0.1)
-  - AFNetworking/Serialization (4.0.1)
   - CocoaAsyncSocket (7.6.5)
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
   - CocoaLumberjack (3.7.0):
     - CocoaLumberjack/Core (= 3.7.0)
-  - CocoaLumberjack/Core (3.7.0)
   - Masonry (1.1.0)
   - MJExtension (3.2.2)
   - Objective-C-HMTL-Parser (0.0.1)
@@ -31,7 +23,6 @@ PODS:
     - ReactiveCocoa/Core
   - SDWebImage (5.10.2):
     - SDWebImage/Core (= 5.10.2)
-  - SDWebImage/Core (5.10.2)
 
 DEPENDENCIES:
   - AFNetworking
