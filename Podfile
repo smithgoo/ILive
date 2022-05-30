@@ -19,7 +19,7 @@ target 'LiveTV' do
   pod 'Masonry'
   pod 'Objective-C-HMTL-Parser'
   pod 'SDWebImage'
-  pod 'CocoaHTTPServer'
+#  pod 'CocoaHTTPServer'
   pod 'ReactiveCocoa', '~> 2.5'
   # Podfile
 

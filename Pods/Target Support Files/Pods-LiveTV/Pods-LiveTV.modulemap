@@ -1,0 +1,6 @@
+module Pods_LiveTV {
+  umbrella header "Pods-LiveTV-umbrella.h"
+
+  export *
+  module * { export * }
+}
